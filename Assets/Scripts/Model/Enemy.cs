@@ -14,7 +14,6 @@ public class Enemy : MonoBehaviour
     public float minDurationChange;
     public float maxDurationChange;
 
-
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnEnemyKilled = delegate { };
     public UnityAction<Vector2> OnCollideWithObstacle = delegate { };
@@ -68,6 +67,19 @@ public class Enemy : MonoBehaviour
             else
             {
                 Debug.LogWarning("There's no Player component on " + col.gameObject.name + " gameObject.");
+            }
+        }
+        else if(col.gameObject.tag == "Players Balloon")
+        {
+            PlayerBalloon balloon = col.gameObject.GetComponent<PlayerBalloon>();
+
+            if(balloon)
+            {
+                balloon.OnBalloonPoppedUp();
+            }
+            else
+            {
+                Debug.LogWarning("There's no Player Balloon component on " + col.gameObject.name + " gameObject.");
             }
         }
         else
