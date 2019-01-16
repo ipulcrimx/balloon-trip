@@ -8,15 +8,11 @@ public class Player : MonoBehaviour
     public float jumpPower = 0.5f;
 
     public GameObject[] balloons;
-
-    private int live;
     private Rigidbody2D _rigidBody2d;
 
     private void Awake()
     {
-        live = Constant.startingLive;
         _rigidBody2d = GetComponent<Rigidbody2D>();
-
     }
 
     // Start is called before the first frame update
