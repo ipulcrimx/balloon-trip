@@ -22,6 +22,10 @@ public class EnemyBalloon : MonoBehaviour
             Debug.Log("Balloon destroyed");
             enemyParent.OnBallonDestroyed();
         }
+        else
+        {
+            enemyParent.OnCollideWithObstacle(col.transform.position);
+        }
     }
 
     private void OnBalloonHit()
