@@ -129,9 +129,9 @@ public class Enemy : MonoBehaviour
         else
         {
             Vector2 colPos = collidePosition - pos;
-            float angle = GetAngleBetween(collidePosition, pos);
+            float angle = GetAngleBetween(colPos);
 
-            rndAngle = Random.Range(angle - 120, angle + 120) + 180;
+            rndAngle = Random.Range(angle - 90, angle + 90) + 180;
 
             Debug.Log("Random Angle after collide with something: " + rndAngle);
         }
@@ -142,10 +142,12 @@ public class Enemy : MonoBehaviour
         moveDirection = new Vector2(x, y) * moveSpeed;
     }
 
-    private float GetAngleBetween(Vector2 pos1, Vector2 pos2)
+    private float GetAngleBetween(Vector2 pos)
     {
-        // TODO: calculate angle here...
-        return 0;
+        float angle = Vector2.Angle(pos, Vector2.up);
+
+        Debug.Log(angle);
+        return angle;
     }
 
     private void ChangeDuration()
