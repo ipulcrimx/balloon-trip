@@ -84,7 +84,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            OnCollideWithObstacle(col.transform.position);
+            OnCollideWithObstacle(col.contacts[0].point);
         }
     }
 
@@ -124,16 +124,18 @@ public class Enemy : MonoBehaviour
         if (collidePosition == Vector2.zero)
         {
             rndAngle = Random.Range(0f, 360f);
-            Debug.Log("Random Angle: " + rndAngle);
+            //Debug.Log("Random Angle: " + rndAngle);
         }
         else
         {
             Vector2 colPos = collidePosition - pos;
             float angle = GetAngleBetween(colPos);
 
-            rndAngle = Random.Range(angle - 90, angle + 90) + 180;
-
+            rndAngle = Random.Range(angle - 60, angle + 60) + 180;
             Debug.Log("Random Angle after collide with something: " + rndAngle);
+
+            _timer = 0;
+            ChangeDuration();
         }
 
         float x = Mathf.Sin(rndAngle);
@@ -145,8 +147,11 @@ public class Enemy : MonoBehaviour
     private float GetAngleBetween(Vector2 pos)
     {
         float angle = Vector2.Angle(pos, Vector2.up);
+        Debug.LogFormat("Position: {0}, collide position: {1} - ({3}), angle: {2}", transform.position, pos, angle, transform.position + (Vector3)pos);
 
-        Debug.Log(angle);
+        //Debug.DrawLine(transform.position, (Vector3)pos + transform.position);
+        //Debug.Break();
+
         return angle;
     }
 
