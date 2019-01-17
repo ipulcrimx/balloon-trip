@@ -48,8 +48,6 @@ public class Enemy : MonoBehaviour
 
     private void BallDestroyed()
     {
-        Debug.Log("Asu!");
-
         _hasBalloon = false;
         balloon.SetActive(false);
 
