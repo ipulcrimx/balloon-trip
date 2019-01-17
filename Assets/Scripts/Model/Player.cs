@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour
 {
@@ -38,10 +39,20 @@ public class Player : MonoBehaviour
         {
             Jump();
         }
-#elif UNITY_ANDROID
-
 #endif
+        Vector2 move = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"));
+        bool isJump = CrossPlatformInputManager.GetButtonDown("Jump");
 
+        if (move.sqrMagnitude >= 0.15f)
+        {
+            MoveHorizontal(move);
+        }
+
+        if(isJump)
+        {
+            isJump = false;
+            Jump();
+        }
     }
 
     #region Input Methods
@@ -50,8 +61,14 @@ public class Player : MonoBehaviour
         transform.position += new Vector3(speed * Time.deltaTime, 0);
     }
 
+    private void MoveHorizontal(Vector2 direction)
+    {
+        transform.position += moveSpeed * Time.deltaTime * (Vector3)direction;
+    }
+
     private void Jump()
     {
+        _rigidBody2d.velocity = Vector2.zero;
         _rigidBody2d.AddForce(Vector2.up * jumpPower);
     }
     #endregion
