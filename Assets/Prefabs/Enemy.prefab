@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6366695547818941949}
   - component: {fileID: 3958690215967627571}
   - component: {fileID: 6366695547818941952}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Balloon 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +133,7 @@ GameObject:
   - component: {fileID: 3183557399415006843}
   - component: {fileID: 5753220729251116436}
   - component: {fileID: 1295685083743238937}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -218,9 +218,9 @@ MonoBehaviour:
   balloon: {fileID: 6366695547818941951}
   moveSpeed: 6.25
   moveDirection: {x: 0, y: 6}
-  duration: 1.25
-  minDurationChange: 3
-  maxDurationChange: 7.5
+  duration: 1
+  minDurationChange: 1.5
+  maxDurationChange: 3.85
 --- !u!61 &5753220729251116436
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -259,11 +259,11 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 3
+  m_Mass: 8
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0

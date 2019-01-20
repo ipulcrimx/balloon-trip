@@ -27,7 +27,7 @@ public class Enemy : MonoBehaviour
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
 
-        _rigidBody2D.mass = 15;
+        _rigidBody2D.mass = 8;
         _rigidBody2D.gravityScale = 0;
 
         OnEnemyKilled += Boom;
@@ -50,7 +50,8 @@ public class Enemy : MonoBehaviour
                 _timer += Time.deltaTime;
             }
 
-            transform.position += (Vector3)moveDirection * Time.deltaTime;
+            //transform.position += (Vector3)moveDirection * Time.deltaTime;
+            _rigidBody2D.AddForce(moveDirection);
         }
     }
 

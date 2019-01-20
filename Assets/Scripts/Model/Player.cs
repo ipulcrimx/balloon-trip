@@ -58,17 +58,19 @@ public class Player : MonoBehaviour
     #region Input Methods
     private void MoveHorizontal(float speed)
     {
-        transform.position += new Vector3(speed * Time.deltaTime, 0);
+        //transform.position += new Vector3(speed * Time.deltaTime, 0);
+        _rigidBody2d.AddForce(Vector2.right*speed);
     }
 
     private void MoveHorizontal(Vector2 direction)
     {
-        transform.position += moveSpeed * Time.deltaTime * (Vector3)direction;
+        //transform.position += moveSpeed * Time.deltaTime * (Vector3)direction;
+        _rigidBody2d.AddForce(direction * moveSpeed);
     }
 
     private void Jump()
     {
-        _rigidBody2d.velocity = Vector2.zero;
+        //_rigidBody2d.velocity = Vector2.zero;
         _rigidBody2d.AddForce(Vector2.up * jumpPower);
     }
     #endregion
