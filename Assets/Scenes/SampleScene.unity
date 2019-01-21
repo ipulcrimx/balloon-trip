@@ -243,6 +243,10 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0.29920787
       objectReference: {fileID: 0}
+    - target: {fileID: 11400010, guid: 9529ecc3d479da5499993355e6c2cb4f, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9529ecc3d479da5499993355e6c2cb4f, type: 3}
 --- !u!1 &89415401 stripped
@@ -1335,7 +1339,7 @@ MonoBehaviour:
   topWall: {fileID: 830259641}
   leftWall: {fileID: 1883216606}
   rightWall: {fileID: 669262915}
-  offset: {x: 1, y: 1}
+  offset: {x: 1.5, y: 0.25}
 --- !u!1 &1883216605
 GameObject:
   m_ObjectHideFlags: 0
