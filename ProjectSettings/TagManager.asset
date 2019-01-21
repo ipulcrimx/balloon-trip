@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Enemy
   - Players Balloon
+  - Wrap Point
   layers:
   - Default
   - TransparentFX
