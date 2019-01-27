@@ -18,9 +18,9 @@ public class Enemy : MonoBehaviour
     public UnityAction OnEnemyKilled = delegate { };
     public UnityAction<Vector2> OnCollideWithObstacle = delegate { };
 
-    private bool _hasBalloon = true;
-    private float _timer;
-    private Rigidbody2D _rigidBody2D;
+    protected bool _hasBalloon = true;
+    protected float _timer;
+    protected Rigidbody2D _rigidBody2D;
 
     // Start is called before the first frame update
     void Start()
@@ -41,7 +41,6 @@ public class Enemy : MonoBehaviour
         {
             if(_timer >= duration)
             {
-                _timer = 0;
                 ChangeDuration();
                 ChangeDirection(Vector2.zero);
             }
@@ -89,7 +88,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    private void BallDestroyed()
+    protected void BallDestroyed()
     {
         _hasBalloon = false;
         balloon.SetActive(false);
@@ -100,13 +99,13 @@ public class Enemy : MonoBehaviour
         _rigidBody2D.gravityScale = 1;
     }
 
-    private void Boom()
+    protected void Boom()
     {
         // TODO: write something here when enemy killed...
         Debug.Log("Boom!");
     }
 
-    private void ChangeDirection(Vector2 collidePosition)
+    protected void ChangeDirection(Vector2 collidePosition)
     {
         float rndAngle;
         Vector2 pos = transform.position;
@@ -135,7 +134,7 @@ public class Enemy : MonoBehaviour
         moveDirection = new Vector2(x, y) * moveSpeed;
     }
 
-    private float GetAngleBetween(Vector2 pos)
+    protected float GetAngleBetween(Vector2 pos)
     {
         float angle = Vector2.Angle(pos, Vector2.up);
         Debug.LogFormat("Position: {0}, collide position: {1} - ({3}), angle: {2}", transform.position, pos, angle, transform.position + (Vector3)pos);
@@ -146,8 +145,9 @@ public class Enemy : MonoBehaviour
         return angle;
     }
 
-    private void ChangeDuration()
+    protected virtual void ChangeDuration()
     {
+        _timer = 0;
         duration = Random.Range(minDurationChange, maxDurationChange);
     }
 
