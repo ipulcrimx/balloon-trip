@@ -106,14 +106,6 @@ public class Enemy : MonoBehaviour
         Debug.Log("Boom!");
     }
 
-#if UNITY_EDITOR
-    [ContextMenu("Change Direction")]
-    public void Change()
-    {
-        ChangeDirection(Vector2.zero);
-    }
-#endif
-
     private void ChangeDirection(Vector2 collidePosition)
     {
         float rndAngle;
