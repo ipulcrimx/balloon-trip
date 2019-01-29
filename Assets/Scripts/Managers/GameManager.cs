@@ -10,8 +10,24 @@ public class GameManager : MonoBehaviour
     private bool _hasGameOver = false;
     private int _live;
 
+    private static GameManager _instance = null;
+
+    public static GameManager instance
+    {
+        get
+        {
+            if(!_instance)
+            {
+                Debug.LogWarning("Instance haven't initiated yet....");
+            }
+
+            return _instance;
+        }
+    }
+
     private void Awake()
     {
+        _instance = this;
         _live = Constant.startingLive;
     }
 

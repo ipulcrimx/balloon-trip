@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(BoxCollider2D))]
 public class ChargingEnemy : Enemy
 {
     [Header("Charging Parameter")]
@@ -20,6 +22,7 @@ public class ChargingEnemy : Enemy
     private bool _isCharging;
     private float _preChargeTimer = 0;
     private float _chargingTimer = 0;
+    private Player _player;
 
     private ChargingPhase _phase = ChargingPhase.None;
 
@@ -73,6 +76,8 @@ public class ChargingEnemy : Enemy
 
                     if(_preChargeTimer >= chargingTime)
                     {
+                        moveDirection = Vector2.zero;
+                        _rigidBody2D.velocity = Vector2.zero;
 
                         _preChargeTimer = 0;
                         _phase = ChargingPhase.DoCharge;
@@ -85,6 +90,8 @@ public class ChargingEnemy : Enemy
 
                     if(_chargingTimer >= chargeBoostTime)
                     {
+                        Vector2 direction = GetDirectionToPlayer();
+                        moveDirection = direction * forceMultiplier;
 
                         _chargingTimer = 0;
                         _phase = ChargingPhase.PostCharge;
@@ -95,12 +102,14 @@ public class ChargingEnemy : Enemy
                 {
                     // TODO: do something here, like slowing down after charge
 
-                    if(true)
+                    if(true)    
                     {
+                        _rigidBody2D.velocity *= 0.1f;
+
                         _phase = ChargingPhase.None;
                         _isCharging = false;
                         ChangeDuration();
-                        ChangeDirection(Vector2.zero);
+                        //ChangeDirection(Vector2.zero);
                     }
                     break;
                 }
@@ -112,6 +121,23 @@ public class ChargingEnemy : Enemy
     {
         base.ChangeDuration();
         if(_isCharging) chargeDelay = Random.Range(minChargeDelayChange, maxChargeDelayChange);
+    }
+
+    [ContextMenu("Get angle")]
+    private Vector2 GetDirectionToPlayer()
+    {
+        // TODO: this angle calculation is still inaccurated... please change
+        Vector2 angle = new Vector2();
+
+        if (!_player) _player = GameManager.instance.player;
+        Vector2 temp = transform.position - _player.transform.position;
+
+        float rad = Mathf.Atan2(temp.y, temp.x);
+        angle = new Vector2(Mathf.Sin(rad), Mathf.Cos(rad));
+
+        Debug.Log("Angle: " + angle.x + ", " + angle.y + "\nDegree: " + rad * Mathf.Rad2Deg);
+
+        return angle;
     }
 }
 
