@@ -19,14 +19,14 @@ public class ChargingEnemy : Enemy
     public float minChargeDelayChange;
     public float maxChargeDelayChange;
 
-    private bool _isCharging;
-    private float _preChargeTimer = 0;
-    private float _chargingTimer = 0;
-    private Player _player;
+    protected bool _isCharging;
+    protected float _preChargeTimer = 0;
+    protected float _chargingTimer = 0;
+    protected Player _player;
 
-    private ChargingPhase _phase = ChargingPhase.None;
-
-    private void Update()
+    protected ChargingPhase _phase = ChargingPhase.None;
+    
+    void Update()
     {
         if (_hasBalloon)
         {
@@ -124,24 +124,19 @@ public class ChargingEnemy : Enemy
     }
 
     [ContextMenu("Get angle")]
-    private Vector2 GetDirectionToPlayer()
+    protected Vector2 GetDirectionToPlayer()
     {
         // TODO: this angle calculation is still inaccurated... please change
         Vector2 angle = new Vector2();
 
         if (!_player) _player = GameManager.instance.player;
-        Vector2 temp = transform.position - _player.transform.position;
-
-        float rad = Mathf.Atan2(temp.y, temp.x);
-        angle = new Vector2(Mathf.Sin(rad), Mathf.Cos(rad));
-
-        Debug.Log("Angle: " + angle.x + ", " + angle.y + "\nDegree: " + rad * Mathf.Rad2Deg);
+        angle = (_player.transform.position - transform.position).normalized;
 
         return angle;
     }
 }
 
-internal enum ChargingPhase
+public enum ChargingPhase
 {
     None = -1,
     Charging = 0,

@@ -1499,10 +1499,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1850399724}
+  - component: {fileID: 1850399723}
   - component: {fileID: 1850399726}
   - component: {fileID: 1850399725}
-  - component: {fileID: 1850399723}
   - component: {fileID: 1850399727}
+  - component: {fileID: 1850399728}
   m_Layer: 0
   m_Name: Dummy Enemy
   m_TagString: Enemy
@@ -1562,15 +1563,15 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 1
+  m_Mass: 15
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!114 &1850399726
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1578,7 +1579,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1850399722}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0b0af1c8b95034e49820a87cbfc16301, type: 3}
   m_Name: 
@@ -1591,11 +1592,10 @@ MonoBehaviour:
   maxDurationChange: 5
   chargingTime: 2.5
   chargeBoostTime: 1
-  forceMultiplier: 300
-  chargeDelay: 8
-  minChargeDelayChange: 3.5
-  maxChargeDelayChange: 10
-  _phase: -1
+  forceMultiplier: 1500
+  chargeDelay: 2
+  minChargeDelayChange: 3
+  maxChargeDelayChange: 5
 --- !u!212 &1850399727
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1644,6 +1644,31 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &1850399728
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1850399722}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: df3ec9ba60baa74439eabbee4415e2a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balloon: {fileID: 0}
+  moveSpeed: 7
+  moveDirection: {x: 0, y: 6}
+  duration: 6
+  minDurationChange: 1
+  maxDurationChange: 2
+  chargingTime: 2
+  chargeBoostTime: 3
+  forceMultiplier: 1000
+  chargeDelay: 1
+  minChargeDelayChange: 1
+  maxChargeDelayChange: 1.5
+  maxSize: 3
 --- !u!1 &1883216605
 GameObject:
   m_ObjectHideFlags: 0
