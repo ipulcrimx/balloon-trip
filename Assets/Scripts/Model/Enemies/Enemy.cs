@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class Enemy : MonoBehaviour
@@ -23,7 +23,7 @@ public class Enemy : MonoBehaviour
     protected Rigidbody2D _rigidBody2D;
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
 
