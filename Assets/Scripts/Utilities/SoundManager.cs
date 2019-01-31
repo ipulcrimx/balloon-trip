@@ -46,6 +46,9 @@ public class SoundManager : MonoBehaviour
         if (!_isSFXPlay)
             return;
 
+        if (!sfx)
+            return;
+
         _source.PlayOneShot(sfx);
     }
 
@@ -58,6 +61,9 @@ public class SoundManager : MonoBehaviour
             return;
 
         if (index == _currentBGMPlaying)
+            return;
+
+        if (musics.Length <= 0)
             return;
 
         _source.clip = musics[index];
