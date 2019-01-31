@@ -1,18 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SkinPopUpManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Button closeButton;
+
+    private bool _isOpen = false;
+
+    public void Init()
     {
-        
+        closeButton.onClick.AddListener(() => { TogglePopUp(); });
     }
 
-    // Update is called once per frame
-    void Update()
+    internal void TogglePopUp()
     {
-        
+        SoundManager.instance.PlaySFX();
+
+        _isOpen = !_isOpen;
+        gameObject.SetActive(_isOpen);
     }
 }
