@@ -30,6 +30,7 @@ public class SoundManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     // Use this for initialization

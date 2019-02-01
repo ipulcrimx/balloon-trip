@@ -29,6 +29,8 @@ public class GameManager : MonoBehaviour
     {
         _instance = this;
         _live = Constant.startingLive;
+
+        Time.timeScale = 1;
     }
 
     // Start is called before the first frame update
