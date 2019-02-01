@@ -4,6 +4,8 @@ using System.Collections;
 
 public class AdsManager : MonoBehaviour
 {
+    public int frequencyAds = 2;
+
     [SerializeField]
 #if UNITY_IOS
     private string gameId = "3027967";
@@ -27,10 +29,19 @@ public class AdsManager : MonoBehaviour
             return _instace;
         }
     }
-#endregion
+    #endregion
+
+    private int _callCounter = 0;
 
     private void Awake()
     {
+        if(_instace)
+        {
+            Debug.LogWarning("There's already Ads Manager Instance here...\nDestroying itself...");
+            Destroy(gameObject);
+            return;
+        }
+
         _instace = this;
     }
 
@@ -38,6 +49,8 @@ public class AdsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
+
         DontDestroyOnLoad(gameObject);
         Monetization.Initialize(gameId, testMode);
     }
@@ -85,6 +98,10 @@ public class AdsManager : MonoBehaviour
     [ContextMenu("Show Ads")]
     public void ShowAds()
     {
+        _callCounter++;
+        if (_callCounter % frequencyAds != 0)
+            return;
+
         int rnd = Random.Range(0, 100);
 
         if (rnd % 2 == 0)

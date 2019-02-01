@@ -29,6 +29,13 @@ public class SoundManager : MonoBehaviour
 
     private void Awake()
     {
+        if (_instance)
+        {
+            Debug.LogWarning("There's already Ads Manager Instance here...\nDestroying itself...");
+            Destroy(gameObject);
+            return;
+        }
+
         _instance = this;
         DontDestroyOnLoad(gameObject);
     }

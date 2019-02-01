@@ -26,6 +26,8 @@ public class MainMenuUIManager : MonoBehaviour
         shopPopUp.Init();
         skinPopUp.Init();
 
+        AdsManager.instance.ShowAds();
+
         // button listener initiation here...
         playButton.onClick.AddListener(() => { OnPlayButtonClicked(); });
         leaderBoardButton.onClick.AddListener(() => { OnLeaderboardButtonClicked(); });
