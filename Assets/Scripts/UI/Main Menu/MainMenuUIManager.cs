@@ -37,6 +37,7 @@ public class MainMenuUIManager : MonoBehaviour
     public void OnPlayButtonClicked()
     {
         _soundManager.PlaySFX();
+        AnalyticsManager.instance.StartPlaying(0);
         SceneManager.LoadScene("Game");
     }
 
