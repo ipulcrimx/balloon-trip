@@ -41,7 +41,7 @@ public class Player : MonoBehaviour
         }
 #endif
         Vector2 move = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"));
-        bool isJump = CrossPlatformInputManager.GetButtonDown("Jump");
+        bool isJump = CrossPlatformInputManager.GetButton("Jump");
 
         if (move.sqrMagnitude >= 0.15f)
         {
