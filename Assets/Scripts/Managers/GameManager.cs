@@ -36,12 +36,21 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    private void OnDestroy()
+    {
+        AnalyticsManager.instance.DonePlaying(0);
+    }
+
+    private void OnApplicationQuit()
+    {
+        AnalyticsManager.instance.DonePlaying(0);
     }
 }

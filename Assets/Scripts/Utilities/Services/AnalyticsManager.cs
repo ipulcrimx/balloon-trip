@@ -30,7 +30,7 @@ public class AnalyticsManager : MonoBehaviour
     private bool _isPlaying = false;
     private float _playTime = 0;
 
-    private void Awake()
+    private void Start()
     {
         if (_instace)
         {
@@ -40,6 +40,7 @@ public class AnalyticsManager : MonoBehaviour
         }
 
         _instace = this;
+        DontDestroyOnLoad(gameObject);
     }
 
     public void StartPlaying(int coin)
