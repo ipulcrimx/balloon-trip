@@ -59,6 +59,11 @@ public class ChargingEnemy : Enemy
                     _chargingTimer = 0;
                     _preChargeTimer += Time.deltaTime;
                 }
+
+                //if(_phase != ChargingPhase.DoCharge && moveDirection.SqrMagnitude() > moveSpeed * moveSpeed)
+                //{
+                //    moveDirection = moveDirection.normalized * moveSpeed;
+                //}
             }
 
             //transform.position += (Vector3)moveDirection * Time.deltaTime;
@@ -98,6 +103,16 @@ public class ChargingEnemy : Enemy
                     }
                     break;
                 }
+            case ChargingPhase.ChargeBack:
+                {
+                    _rigidBody2D.velocity = -_rigidBody2D.velocity / 4;
+                    _phase = ChargingPhase.None;
+                    _isCharging = false;
+                    moveDirection = Vector2.zero;
+
+                    ChangeDuration();
+                    break;
+                }
             case ChargingPhase.PostCharge:
                 {
                     // TODO: do something here, like slowing down after charge
@@ -114,6 +129,47 @@ public class ChargingEnemy : Enemy
                     break;
                 }
             default: break;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            Player pl = col.gameObject.GetComponent<Player>();
+
+            if (pl)
+            {
+                if (_phase == ChargingPhase.Charging || _phase == ChargingPhase.DoCharge)
+                {
+                    _phase = ChargingPhase.ChargeBack;
+                }
+                else
+                {
+                    OnEnemyKilled();
+                }
+            }
+            else
+            {
+                Debug.LogWarning("There's no Player component on " + col.gameObject.name + " gameObject.");
+            }
+        }
+        else if (col.gameObject.tag == "Players Balloon")
+        {
+            PlayerBalloon balloon = col.gameObject.GetComponent<PlayerBalloon>();
+
+            if (balloon)
+            {
+                balloon.OnBalloonPoppedUp();
+            }
+            else
+            {
+                Debug.LogWarning("There's no Player Balloon component on " + col.gameObject.name + " gameObject.");
+            }
+        }
+        else
+        {
+            OnCollideWithObstacle(col.contacts[0].point);
         }
     }
 
@@ -141,5 +197,6 @@ public enum ChargingPhase
     None = -1,
     Charging = 0,
     DoCharge = 1,
-    PostCharge
+    PostCharge = 2,
+    ChargeBack = 3
 }
