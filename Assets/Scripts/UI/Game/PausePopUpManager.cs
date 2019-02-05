@@ -68,7 +68,7 @@ public class PausePopUpManager : MonoBehaviour
     private void OnAdsClicked()
     {
         if (_soundManager) _soundManager.PlaySFX();
-
+        if (AdsManager.instance) AdsManager.instance.ShowAds(AdsType.Rewarded);
         // TODO: Call video ads
     }
 

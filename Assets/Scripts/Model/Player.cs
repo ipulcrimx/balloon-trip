@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     public GameObject[] balloons;
     private Rigidbody2D _rigidBody2d;
 
+    private bool _isInput = false;
+
     private void Awake()
     {
         _rigidBody2d = GetComponent<Rigidbody2D>();
@@ -28,10 +30,12 @@ public class Player : MonoBehaviour
 #if UNITY_EDITOR
         if(Input.GetKey(KeyCode.LeftArrow))
         {
+            //_isInput = true;
             MoveHorizontal(-moveSpeed);
         }
         else if(Input.GetKey(KeyCode.RightArrow))
         {
+            //_isInput = true;
             MoveHorizontal(moveSpeed);
         }
 
@@ -45,13 +49,25 @@ public class Player : MonoBehaviour
 
         if (move.sqrMagnitude >= 0.15f)
         {
+            _isInput = true;
             MoveHorizontal(move);
         }
 
         if(isJump)
         {
             isJump = false;
+            _isInput = true;
             Jump();
+        }
+
+        if (!isJump && move.sqrMagnitude < 0.1f)
+        {
+            _isInput = false;
+        }
+
+        if(!_isInput)
+        {
+            _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime * 1.5f);
         }
     }
 

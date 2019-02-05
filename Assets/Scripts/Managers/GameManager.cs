@@ -9,6 +9,7 @@ public class GameManager : MonoBehaviour
 
     private bool _hasGameOver = false;
     private int _live;
+    private AnalyticsManager _analytics = null;
 
     private static GameManager _instance = null;
 
@@ -36,6 +37,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _analytics = AnalyticsManager.instance;
     }
 
     // Update is called once per frame
@@ -46,11 +48,11 @@ public class GameManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        AnalyticsManager.instance.DonePlaying(0);
+        if(_analytics) _analytics.DonePlaying(0);
     }
 
     private void OnApplicationQuit()
     {
-        AnalyticsManager.instance.DonePlaying(0);
+        if(_analytics) _analytics.DonePlaying(0);
     }
 }

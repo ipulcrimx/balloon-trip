@@ -3707,7 +3707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8378dbfdf1fad24797dac5795878c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyParent: {fileID: 260093022}
+  enemyParent: {fileID: 0}
 --- !u!61 &1737833298
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -4064,8 +4064,8 @@ MonoBehaviour:
   minDurationChange: 1.5
   maxDurationChange: 5
   chargingTime: 2.5
-  chargeBoostTime: 1
-  forceMultiplier: 1500
+  chargeBoostTime: 0.25
+  forceMultiplier: 2500
   chargeDelay: 2
   minChargeDelayChange: 3
   maxChargeDelayChange: 5
