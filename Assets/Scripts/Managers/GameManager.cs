@@ -31,6 +31,7 @@ public class GameManager : MonoBehaviour
     }
 
     public UnityAction OnScoreChanged = delegate { };
+    public UnityAction OnKillChanged = delegate { };
     public UnityAction OnGameOver = delegate { };
     public UnityAction OnGameClear = delegate { };
 
@@ -130,6 +131,7 @@ public class GameManager : MonoBehaviour
         kill++;
 
         OnScoreChanged();
+        OnKillChanged();
     }
 
     private void OnEnemyEnterPitfall()
@@ -138,6 +140,7 @@ public class GameManager : MonoBehaviour
         kill++;
 
         OnScoreChanged();
+        OnKillChanged();
     }
 
     private void OnDestroy()
