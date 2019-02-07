@@ -91,4 +91,22 @@ public class SoundManager : MonoBehaviour
         _isMusicPlay = !_isMusicPlay;
         PlayerPrefs.SetInt(Constant.MUSIC_KEY, _isMusicPlay ? 1 : 0);
     }
+
+    public void BalloonHitSound()
+    {
+        if (!_isSFXPlay)
+            return;
+    }
+
+    public void EnemyKilledSound()
+    {
+        if (!_isSFXPlay)
+            return;
+    }
+
+    public void GoToPitfallSound()
+    {
+        if (!_isSFXPlay)
+            return;
+    }
 }
