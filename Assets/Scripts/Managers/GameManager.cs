@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
@@ -12,6 +9,29 @@ public class GameManager : MonoBehaviour
     private GamePhase _phase;
     private AnalyticsManager _analytics = null;
 
+    public long score { private set; get; }
+    public int kill { private set; get; }
+    public int obtainedCoin
+    {
+        get
+        {
+            if(_phase != GamePhase.GameOver)
+            {
+                Debug.LogWarning("The game is not over...");
+                return 0;
+            }
+            else
+            {
+                int coin = Mathf.FloorToInt(score * Constant.SCORE_TO_COIN);
+                float rndBonus = Random.Range(0, 0.6f);
+
+                return Mathf.RoundToInt(coin * (1 + rndBonus));
+            }
+        }
+    }
+
+    public UnityAction OnScoreChanged = delegate { };
+    public UnityAction OnKillChanged = delegate { };
     public UnityAction OnGameOver = delegate { };
     public UnityAction OnGameClear = delegate { };
 
@@ -46,8 +66,14 @@ public class GameManager : MonoBehaviour
         _analytics = AnalyticsManager.instance;
         _phase = GamePhase.InGame;
 
-        OnGameOver += OnGameIsOver;
+        //OnGameOver += OnGameIsOver;
         OnGameClear += OnLevelIsClear;
+
+        foreach(Enemy en in enemies)
+        {
+            en.OnBallonDestroyed += OnEnemyBalloonPoppedUp;
+            en.OnEnemyKilled += OnEnemyKilled;
+        }
     }
 
     // Update is called once per frame
@@ -73,10 +99,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void OnGameIsOver()
-    {
-    }
-
     private void OnLevelIsClear()
     {
 
@@ -96,14 +118,43 @@ public class GameManager : MonoBehaviour
         return temp;
     }
 
+    private void OnEnemyBalloonPoppedUp()
+    {
+        score += Constant.SCORE_PER_BALLON;
+
+        OnScoreChanged();
+    }
+
+    private void OnEnemyKilled()
+    {
+        score += Constant.SCORE_FINISHING_HIT;
+        kill++;
+
+        OnScoreChanged();
+        OnKillChanged();
+    }
+
+    private void OnEnemyEnterPitfall()
+    {
+        score += Constant.SCORE_PITFALL;
+        kill++;
+
+        OnScoreChanged();
+        OnKillChanged();
+    }
+
     private void OnDestroy()
     {
-        if(_analytics) _analytics.DonePlaying(0);
+        if(_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
+
+        enemies = new Enemy[0];
     }
 
     private void OnApplicationQuit()
     {
-        if(_analytics) _analytics.DonePlaying(0);
+        if (_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
+
+        enemies = new Enemy[0];
     }
 
     internal enum GamePhase
