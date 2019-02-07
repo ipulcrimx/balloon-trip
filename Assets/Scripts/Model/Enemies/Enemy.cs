@@ -61,8 +61,15 @@ public class Enemy : MonoBehaviour
             Player pl = col.gameObject.GetComponent<Player>();
 
             if (pl)
-            { 
-                OnEnemyKilled();
+            {
+                if (_hasBalloon)
+                {
+                    OnBallonDestroyed();
+                }
+                else
+                {
+                    OnEnemyKilled();
+                }
             }
             else
             {
@@ -93,8 +100,6 @@ public class Enemy : MonoBehaviour
         _hasBalloon = false;
         balloon.SetActive(false);
 
-        _hasBalloon = false;
-
         _rigidBody2D.mass = 1;
         _rigidBody2D.gravityScale = 1;
     }
@@ -103,6 +108,9 @@ public class Enemy : MonoBehaviour
     {
         // TODO: write something here when enemy killed...
         Debug.Log("Boom!");
+
+        balloon.transform.position = Vector3.one * -10;
+        balloon.SetActive(false);
     }
 
     protected void ChangeDirection(Vector2 collidePosition)

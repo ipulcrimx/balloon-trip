@@ -14,6 +14,23 @@ public class Player : MonoBehaviour
 
     private bool _isInput = false;
 
+    public int TotalBalloon
+    {
+        get
+        {
+            int temp = 0;
+            foreach(Transform t in transform)
+            {
+                if(t.GetComponent<PlayerBalloon>())
+                {
+                    temp++;
+                }
+            }
+
+            return temp;
+        }
+    }
+
     private void Awake()
     {
         _rigidBody2d = GetComponent<Rigidbody2D>();
