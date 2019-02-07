@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour
@@ -11,8 +13,29 @@ public class Player : MonoBehaviour
 
     public GameObject[] balloons;
     private Rigidbody2D _rigidBody2d;
+    private bool _isDead = false;
 
     private bool _isInput = false;
+
+    public UnityAction OnBallonDestroyed = delegate { };
+    public UnityAction OnPlayerHit = delegate { };
+
+    public int TotalBalloon
+    {
+        get
+        {
+            int temp = 0;
+            foreach(Transform t in transform)
+            {
+                if(t.gameObject.activeInHierarchy)
+                {
+                    temp++;
+                }
+            }
+
+            return temp;
+        }
+    }
 
     private void Awake()
     {
@@ -33,45 +56,71 @@ public class Player : MonoBehaviour
          {
              _isInput = false;
          };
+
+        OnPlayerHit += PlayerHit;
+        OnBallonDestroyed += BallonHit;
     }
 
     // Update is called once per frame
     void Update()
     {
 #if UNITY_EDITOR
-        if(Input.GetKey(KeyCode.LeftArrow))
+        if (Input.GetKey(KeyCode.LeftArrow))
         {
             //_isInput = true;
             MoveHorizontal(-moveSpeed);
         }
-        else if(Input.GetKey(KeyCode.RightArrow))
+        else if (Input.GetKey(KeyCode.RightArrow))
         {
             //_isInput = true;
             MoveHorizontal(moveSpeed);
         }
 
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             Jump();
         }
 #endif
-        Vector2 move = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"));
-        bool isJump = CrossPlatformInputManager.GetButton("Jump");
-
-        if (move.sqrMagnitude >= 0.15f)
+        if (!_isDead)
         {
-            MoveHorizontal(move);
+            Vector2 move = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"));
+            bool isJump = CrossPlatformInputManager.GetButton("Jump");
+
+            if (move.sqrMagnitude >= 0.15f)
+            {
+                MoveHorizontal(move);
+            }
+
+            if (isJump)
+            {
+                isJump = false;
+                Jump();
+            }
+
+            if (!_isInput)
+            {
+                _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime / slowDownModifier);
+            }
         }
+    }
 
-        if(isJump)
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Enemies")
         {
-            isJump = false;
-            Jump();
-        }
+            Enemy en = col.gameObject.GetComponent<Enemy>();
 
-        if(!_isInput)
-        {
-            _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime / slowDownModifier);
+            if(en)
+            {
+                if(en.hasBallon)
+                {
+                    OnPlayerHit();
+                }
+            }
+            else
+            {
+                Debug.LogWarning("There's no enemy component on collided object!");
+            }
         }
     }
 
@@ -94,4 +143,43 @@ public class Player : MonoBehaviour
         _rigidBody2d.AddForce(Vector2.up * jumpPower);
     }
     #endregion
+
+    private void BallonHit()
+    {
+        GameObject bal = null;
+        foreach (GameObject g in balloons)
+        {
+            if(g.activeInHierarchy)
+            {
+                bal = g;
+                break;
+            }
+        }
+
+        if(bal)
+        {
+            bal.SetActive(false);
+        }
+        else
+        {
+            PlayerHit();
+        }
+    }
+
+    [ContextMenu("Player Hit")]
+    private void PlayerHit()
+    {
+        OnBallonDestroyed();
+
+        if (TotalBalloon <= 0)
+        {
+            _isDead = true;
+            GetComponent<Collider2D>().isTrigger = true;
+        }
+    }
+
+    private void OnBecameInvisible()
+    {
+        Destroy(gameObject);
+    }
 }

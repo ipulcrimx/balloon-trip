@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     [Space]
     public float moveSpeed = 3;
     public Vector2 moveDirection = Vector2.zero;
+    public float inflatingDelay = 1.5f;
+    public float inflatingBalloonDuration = 10;
 
     [Space]
     public float duration;
@@ -20,7 +22,10 @@ public class Enemy : MonoBehaviour
 
     protected bool _hasBalloon = true;
     protected float _timer;
+    protected float _inflatingTimer = 0;
     protected Rigidbody2D _rigidBody2D;
+
+    public bool hasBallon { get { return _hasBalloon; } }
 
     // Start is called before the first frame update
     protected virtual void Start()
@@ -52,6 +57,33 @@ public class Enemy : MonoBehaviour
             //transform.position += (Vector3)moveDirection * Time.deltaTime;
             _rigidBody2D.AddForce(moveDirection);
         }
+        else
+        {
+            Inflating();
+        }
+    }
+
+    protected void Inflating()
+    {
+        _inflatingTimer += Time.deltaTime;
+        if (!balloon.activeInHierarchy)
+        {
+            balloon.transform.localScale = Vector3.zero;
+            balloon.SetActive(true);
+        }
+
+        if (_inflatingTimer <= 2)
+        {
+            // TODO: do nothing?
+        }
+        else if (_inflatingTimer <= inflatingBalloonDuration + inflatingDelay)
+        {
+            balloon.transform.localScale = Vector3.one * (_inflatingTimer - inflatingDelay) / inflatingBalloonDuration;
+        }
+        else
+        {
+            _hasBalloon = true;
+        }
     }
 
     void OnCollisionEnter2D(Collision2D col)
@@ -61,8 +93,15 @@ public class Enemy : MonoBehaviour
             Player pl = col.gameObject.GetComponent<Player>();
 
             if (pl)
-            { 
-                OnEnemyKilled();
+            {
+                if (_hasBalloon)
+                {
+                    OnBallonDestroyed();
+                }
+                else
+                {
+                    OnEnemyKilled();
+                }
             }
             else
             {
@@ -93,8 +132,6 @@ public class Enemy : MonoBehaviour
         _hasBalloon = false;
         balloon.SetActive(false);
 
-        _hasBalloon = false;
-
         _rigidBody2D.mass = 1;
         _rigidBody2D.gravityScale = 1;
     }
@@ -103,6 +140,9 @@ public class Enemy : MonoBehaviour
     {
         // TODO: write something here when enemy killed...
         Debug.Log("Boom!");
+
+        transform.position = Vector3.one * -10;
+        gameObject.SetActive(false);
     }
 
     protected void ChangeDirection(Vector2 collidePosition)
@@ -122,7 +162,7 @@ public class Enemy : MonoBehaviour
             float angle = GetAngleBetween(colPos);
 
             rndAngle = Random.Range(angle - 60, angle + 60) + 180;
-            Debug.Log("Random Angle after collide with something: " + rndAngle);
+            //Debug.Log("Random Angle after collide with something: " + rndAngle);
 
             _timer = 0;
             ChangeDuration();
@@ -137,7 +177,7 @@ public class Enemy : MonoBehaviour
     protected float GetAngleBetween(Vector2 pos)
     {
         float angle = Vector2.Angle(pos, Vector2.up);
-        Debug.LogFormat("Position: {0}, collide position: {1} - ({3}), angle: {2}", transform.position, pos, angle, transform.position + (Vector3)pos);
+        //Debug.LogFormat("Position: {0}, collide position: {1} - ({3}), angle: {2}", transform.position, pos, angle, transform.position + (Vector3)pos);
 
         //Debug.DrawLine(transform.position, (Vector3)pos + transform.position);
         //Debug.Break();

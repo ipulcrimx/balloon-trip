@@ -76,6 +76,10 @@ public class ChargingEnemy : Enemy
             }
             _rigidBody2D.AddForce(moveDirection);
         }
+        else
+        {
+            Inflating();
+        }
     }
 
     private void ChargeUpdate()
@@ -99,7 +103,6 @@ public class ChargingEnemy : Enemy
             case ChargingPhase.DoCharge:
                 if (_chargingTimer <= 0)
                 {
-                    Debug.Log("Sapi!");
                     Vector2 playerDir = GetDirectionToPlayer();
                     moveDirection = playerDir * forceMultiplier;
                     _chargingTimer += Time.deltaTime;
@@ -149,8 +152,21 @@ public class ChargingEnemy : Enemy
 
             if (pl)
             {
-                //OnEnemyKilled();
-                _phase = ChargingPhase.ChargeBack;
+                if (_chargePhase)
+                {
+                    _phase = ChargingPhase.ChargeBack;
+                }
+                else
+                {
+                    if(_hasBalloon)
+                    {
+                        OnBallonDestroyed();
+                    }
+                    else
+                    {
+                        OnEnemyKilled();
+                    }
+                }
             }
             else
             {

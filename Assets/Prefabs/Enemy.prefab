@@ -218,6 +218,8 @@ MonoBehaviour:
   balloon: {fileID: 6366695547818941951}
   moveSpeed: 6.25
   moveDirection: {x: 0, y: 6}
+  inflatingDelay: 3
+  inflatingBalloonDuration: 7
   duration: 1
   minDurationChange: 1.5
   maxDurationChange: 3.85
