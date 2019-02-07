@@ -76,6 +76,10 @@ public class ChargingEnemy : Enemy
             }
             _rigidBody2D.AddForce(moveDirection);
         }
+        else
+        {
+            Inflating();
+        }
     }
 
     private void ChargeUpdate()

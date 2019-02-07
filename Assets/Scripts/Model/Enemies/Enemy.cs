@@ -8,6 +8,8 @@ public class Enemy : MonoBehaviour
     [Space]
     public float moveSpeed = 3;
     public Vector2 moveDirection = Vector2.zero;
+    public float inflatingDelay = 1.5f;
+    public float inflatingBalloonDuration = 10;
 
     [Space]
     public float duration;
@@ -20,6 +22,7 @@ public class Enemy : MonoBehaviour
 
     protected bool _hasBalloon = true;
     protected float _timer;
+    protected float _inflatingTimer = 0;
     protected Rigidbody2D _rigidBody2D;
 
     // Start is called before the first frame update
@@ -51,6 +54,33 @@ public class Enemy : MonoBehaviour
 
             //transform.position += (Vector3)moveDirection * Time.deltaTime;
             _rigidBody2D.AddForce(moveDirection);
+        }
+        else
+        {
+            Inflating();
+        }
+    }
+
+    protected void Inflating()
+    {
+        _inflatingTimer += Time.deltaTime;
+        if (!balloon.activeInHierarchy)
+        {
+            balloon.transform.localScale = Vector3.zero;
+            balloon.SetActive(true);
+        }
+
+        if (_inflatingTimer <= 2)
+        {
+            // TODO: do nothing?
+        }
+        else if (_inflatingTimer <= inflatingBalloonDuration + inflatingDelay)
+        {
+            balloon.transform.localScale = Vector3.one * (_inflatingTimer - inflatingDelay) / inflatingBalloonDuration;
+        }
+        else
+        {
+            _hasBalloon = true;
         }
     }
 
