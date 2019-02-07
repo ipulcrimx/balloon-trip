@@ -30,6 +30,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public UnityAction OnScoreChanged = delegate { };
     public UnityAction OnGameOver = delegate { };
     public UnityAction OnGameClear = delegate { };
 
@@ -64,7 +65,7 @@ public class GameManager : MonoBehaviour
         _analytics = AnalyticsManager.instance;
         _phase = GamePhase.InGame;
 
-        OnGameOver += OnGameIsOver;
+        //OnGameOver += OnGameIsOver;
         OnGameClear += OnLevelIsClear;
 
         foreach(Enemy en in enemies)
@@ -119,18 +120,24 @@ public class GameManager : MonoBehaviour
     private void OnEnemyBalloonPoppedUp()
     {
         score += Constant.SCORE_PER_BALLON;
+
+        OnScoreChanged();
     }
 
     private void OnEnemyKilled()
     {
         score += Constant.SCORE_FINISHING_HIT;
         kill++;
+
+        OnScoreChanged();
     }
 
     private void OnEnemyEnterPitfall()
     {
         score += Constant.SCORE_PITFALL;
         kill++;
+
+        OnScoreChanged();
     }
 
     private void OnDestroy()
