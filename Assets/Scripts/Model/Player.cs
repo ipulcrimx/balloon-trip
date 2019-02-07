@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -7,6 +7,7 @@ public class Player : MonoBehaviour
 {
     public float moveSpeed = 0.15f;
     public float jumpPower = 0.5f;
+    public float slowDownModifier = 2f;
 
     public GameObject[] balloons;
     private Rigidbody2D _rigidBody2d;
@@ -67,7 +68,7 @@ public class Player : MonoBehaviour
 
         if(!_isInput)
         {
-            _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime * 1.5f);
+            _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime / slowDownModifier);
         }
     }
 
