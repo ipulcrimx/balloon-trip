@@ -80,6 +80,11 @@ public class ChargingEnemy : Enemy
         {
             Inflating();
         }
+
+        if (_invincibleTimer < invincibleDuration)
+        {
+            _invincibleTimer += Time.deltaTime;
+        }
     }
 
     private void ChargeUpdate()
@@ -148,6 +153,9 @@ public class ChargingEnemy : Enemy
     {
         if (col.gameObject.tag == "Player")
         {
+            if (_invincibleTimer <= invincibleDuration)
+                return;
+
             Player pl = col.gameObject.GetComponent<Player>();
 
             if (pl)
