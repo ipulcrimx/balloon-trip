@@ -139,8 +139,8 @@ public class Enemy : MonoBehaviour
         // TODO: write something here when enemy killed...
         Debug.Log("Boom!");
 
-        balloon.transform.position = Vector3.one * -10;
-        balloon.SetActive(false);
+        transform.position = Vector3.one * -10;
+        gameObject.SetActive(false);
     }
 
     protected void ChangeDirection(Vector2 collidePosition)
@@ -160,7 +160,7 @@ public class Enemy : MonoBehaviour
             float angle = GetAngleBetween(colPos);
 
             rndAngle = Random.Range(angle - 60, angle + 60) + 180;
-            Debug.Log("Random Angle after collide with something: " + rndAngle);
+            //Debug.Log("Random Angle after collide with something: " + rndAngle);
 
             _timer = 0;
             ChangeDuration();
@@ -175,7 +175,7 @@ public class Enemy : MonoBehaviour
     protected float GetAngleBetween(Vector2 pos)
     {
         float angle = Vector2.Angle(pos, Vector2.up);
-        Debug.LogFormat("Position: {0}, collide position: {1} - ({3}), angle: {2}", transform.position, pos, angle, transform.position + (Vector3)pos);
+        //Debug.LogFormat("Position: {0}, collide position: {1} - ({3}), angle: {2}", transform.position, pos, angle, transform.position + (Vector3)pos);
 
         //Debug.DrawLine(transform.position, (Vector3)pos + transform.position);
         //Debug.Break();
