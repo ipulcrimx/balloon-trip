@@ -43,8 +43,8 @@ public class SoundManager : MonoBehaviour
     // Use this for initialization
     void Start()
     {
-        _isMusicPlay = PlayerPrefs.GetInt("music", 1) == 1;
-        _isSFXPlay = PlayerPrefs.GetInt("sfx", 1) == 1;
+        _isMusicPlay = PlayerPrefs.GetInt(Constant.MUSIC_KEY, 1) == 1;
+        _isSFXPlay = PlayerPrefs.GetInt(Constant.SFX_KEY, 1) == 1;
 
         _source = GetComponent<AudioSource>();
     }
@@ -83,12 +83,12 @@ public class SoundManager : MonoBehaviour
     public void ToggleSFX()
     {
         _isSFXPlay = !_isSFXPlay;
-        PlayerPrefs.SetInt("sfx", _isSFXPlay ? 1 : 0);
+        PlayerPrefs.SetInt(Constant.SFX_KEY, _isSFXPlay ? 1 : 0);
     }
 
     public void ToggleMusic()
     {
         _isMusicPlay = !_isMusicPlay;
-        PlayerPrefs.SetInt("music", _isMusicPlay ? 1 : 0);
+        PlayerPrefs.SetInt(Constant.MUSIC_KEY, _isMusicPlay ? 1 : 0);
     }
 }
