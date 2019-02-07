@@ -1347,6 +1347,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 3183557399415006843, guid: b5560d4ce2581364385b40877f4be659,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 6366695547997392322, guid: b5560d4ce2581364385b40877f4be659,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -4064,7 +4069,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balloon: {fileID: 1737833296}
-  moveSpeed: 6.5
+  moveSpeed: 10
   moveDirection: {x: 0, y: 6}
   inflatingDelay: 1.5
   inflatingBalloonDuration: 10
@@ -4888,6 +4893,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3183557399415006843, guid: b5560d4ce2581364385b40877f4be659,
+        type: 3}
+      propertyPath: moveSpeed
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6366695547997392322, guid: b5560d4ce2581364385b40877f4be659,
         type: 3}

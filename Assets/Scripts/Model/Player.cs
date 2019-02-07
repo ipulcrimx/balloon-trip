@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -112,7 +112,7 @@ public class Player : MonoBehaviour
 
             if(en)
             {
-                if(en.hasBallon)
+                if(en.hasBallon && _invinTimer >= invincibleDuration)
                 {
                     OnPlayerHit();
                 }
@@ -146,19 +146,24 @@ public class Player : MonoBehaviour
 
     private void BallonHit()
     {
+        int index = 0;
         GameObject bal = null;
-        foreach (GameObject g in balloons)
+        for(index = 0; index < balloons.Count;index++)
         {
-            if(g.activeInHierarchy)
+            if(balloons[index].activeInHierarchy)
             {
-                bal = g;
+                bal = balloons[index];
                 break;
             }
         }
 
         if(bal)
         {
+            bal.transform.SetParent(null);
+            balloons.RemoveAt(index);
             bal.SetActive(false);
+
+            _invinTimer = 0;
         }
         else
         {
