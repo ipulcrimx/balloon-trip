@@ -63,7 +63,7 @@ public class FuguEnemy : ChargingEnemy
 
                         //transform.localScale = _initialSize;
                         _phase = ChargingPhase.None;
-                        _isCharging = false;
+                        _chargePhase = false;
                         ChangeDuration();
                         //ChangeDirection(Vector2.zero);
                     }

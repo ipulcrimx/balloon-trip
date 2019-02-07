@@ -96,23 +96,48 @@ public class AdsManager : MonoBehaviour
     }
 
     [ContextMenu("Show Ads")]
-    public void ShowAds()
+    public void ShowAds(AdsType type = AdsType.Random)
     {
         _callCounter++;
         if (_callCounter % frequencyAds != 0)
             return;
 
-        int rnd = Random.Range(0, 100);
+        switch(type)
+        {
+            case AdsType.Random:
+                int rnd = Random.Range(0, 100);
 
-        if (rnd % 2 == 0)
-        {
-            StartCoroutine(ShowRewardedVideoWhenReady());
-            Debug.Log("Showing Rewarded Video");
-        }
-        else
-        {
-            StartCoroutine(ShowSkipableVideoWhenReady());
-            Debug.Log("Showing skipable video");
+                if (rnd % 2 == 0)
+                {
+                    StartCoroutine(ShowRewardedVideoWhenReady());
+                    Debug.Log("Showing Rewarded Video");
+                }
+                else
+                {
+                    StartCoroutine(ShowSkipableVideoWhenReady());
+                    Debug.Log("Showing skipable video");
+                }
+                break;
+            case AdsType.Skipable:
+                StartCoroutine(ShowSkipableVideoWhenReady());
+                Debug.Log("Showing skipable video");
+                break;
+            case AdsType.Rewarded:
+                StartCoroutine(ShowRewardedVideoWhenReady());
+                Debug.Log("Showing Rewarded Video");
+                break;
+            default:
+                StartCoroutine(ShowSkipableVideoWhenReady());
+                Debug.Log("Showing skipable video");
+                break;
         }
     }
+}
+
+public enum AdsType
+{
+    None = -1,
+    Random = 0,
+    Skipable = 1,
+    Rewarded = 2
 }

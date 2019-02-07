@@ -7,9 +7,12 @@ public class Player : MonoBehaviour
 {
     public float moveSpeed = 0.15f;
     public float jumpPower = 0.5f;
+    public float slowDownModifier = 2f;
 
     public GameObject[] balloons;
     private Rigidbody2D _rigidBody2d;
+
+    private bool _isInput = false;
 
     private void Awake()
     {
@@ -17,9 +20,19 @@ public class Player : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
-        
+        yield return new WaitUntil(()=> Joystick.instance != null);
+
+        Joystick.instance.OnStartInput += () =>
+        {
+            _isInput = true;
+        };
+
+        Joystick.instance.OnStopInput += () =>
+         {
+             _isInput = false;
+         };
     }
 
     // Update is called once per frame
@@ -28,10 +41,12 @@ public class Player : MonoBehaviour
 #if UNITY_EDITOR
         if(Input.GetKey(KeyCode.LeftArrow))
         {
+            //_isInput = true;
             MoveHorizontal(-moveSpeed);
         }
         else if(Input.GetKey(KeyCode.RightArrow))
         {
+            //_isInput = true;
             MoveHorizontal(moveSpeed);
         }
 
@@ -52,6 +67,11 @@ public class Player : MonoBehaviour
         {
             isJump = false;
             Jump();
+        }
+
+        if(!_isInput)
+        {
+            _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime / slowDownModifier);
         }
     }
 

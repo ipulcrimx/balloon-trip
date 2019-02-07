@@ -19,18 +19,28 @@ public class ChargingEnemy : Enemy
     public float minChargeDelayChange;
     public float maxChargeDelayChange;
 
-    protected bool _isCharging;
+    protected bool _chargePhase;
     protected float _preChargeTimer = 0;
     protected float _chargingTimer = 0;
     protected Player _player;
 
     protected ChargingPhase _phase = ChargingPhase.None;
-    
+
+    protected override void Start()
+    {
+        base.Start();
+
+        _chargePhase = false ;
+        _phase = ChargingPhase.None;
+        _preChargeTimer = 0;
+        _chargingTimer = 0;
+    }
+
     void Update()
     {
-        if (_hasBalloon)
+        if(_hasBalloon)
         {
-            if (_isCharging)
+            if(_chargePhase)
             {
                 ChargeUpdate();
             }
@@ -48,79 +58,131 @@ public class ChargingEnemy : Enemy
 
                 if(_preChargeTimer >= chargeDelay)
                 {
-                    _isCharging = true;
+                    _chargePhase = true;
                     _phase = ChargingPhase.Charging;
                     _preChargeTimer = 0;
-
-                    ChangeDuration();
+                    _chargingTimer = 0;
                 }
                 else
                 {
                     _chargingTimer = 0;
                     _preChargeTimer += Time.deltaTime;
                 }
+                if(_phase != ChargingPhase.DoCharge &&
+                    moveDirection.sqrMagnitude > moveSpeed * moveSpeed)
+                {
+                    moveDirection = Vector3.Lerp(moveDirection, moveDirection.normalized * moveSpeed, Time.deltaTime);
+                }
             }
-
-            //transform.position += (Vector3)moveDirection * Time.deltaTime;
             _rigidBody2D.AddForce(moveDirection);
         }
     }
 
     private void ChargeUpdate()
     {
-        switch (_phase)
+        switch(_phase)
         {
             case ChargingPhase.Charging:
+                if(_preChargeTimer < chargingTime)
                 {
+                    moveDirection = Vector2.zero;
+                    _rigidBody2D.velocity = Vector2.zero;
+
                     _preChargeTimer += Time.deltaTime;
-
-                    if(_preChargeTimer >= chargingTime)
-                    {
-                        moveDirection = Vector2.zero;
-                        _rigidBody2D.velocity = Vector2.zero;
-
-                        _preChargeTimer = 0;
-                        _phase = ChargingPhase.DoCharge;
-                    }
-                    break;
                 }
+                else
+                {
+                    _preChargeTimer = 0;
+                    _phase = ChargingPhase.DoCharge;
+                }
+                break;
             case ChargingPhase.DoCharge:
+                if (_chargingTimer <= 0)
+                {
+                    Debug.Log("Sapi!");
+                    Vector2 playerDir = GetDirectionToPlayer();
+                    moveDirection = playerDir * forceMultiplier;
+                    _chargingTimer += Time.deltaTime;
+                }
+                else if (_chargingTimer >= chargeBoostTime)
+                {
+
+                    _chargingTimer = 0;
+                    _phase = ChargingPhase.PostCharge;
+                }
+                else
                 {
                     _chargingTimer += Time.deltaTime;
-
-                    if(_chargingTimer >= chargeBoostTime)
-                    {
-                        Vector2 direction = GetDirectionToPlayer();
-                        moveDirection = direction * forceMultiplier;
-
-                        _chargingTimer = 0;
-                        _phase = ChargingPhase.PostCharge;
-                    }
-                    break;
                 }
+                break;
             case ChargingPhase.PostCharge:
-                {
-                    // TODO: do something here, like slowing down after charge
+                _rigidBody2D.velocity *= 0.15f;
 
-                    if(true)    
-                    {
-                        _rigidBody2D.velocity *= 0.1f;
+                _phase = ChargingPhase.None;
+                _chargePhase = false;
+                ChangeDuration();
+                break;
+            case ChargingPhase.ChargeBack:
+                //float rndAngle = Random.Range(40f, 150f);
+                //float x = Mathf.Sin(rndAngle);
+                //float y = Mathf.Cos(rndAngle);
 
-                        _phase = ChargingPhase.None;
-                        _isCharging = false;
-                        ChangeDuration();
-                        //ChangeDirection(Vector2.zero);
-                    }
-                    break;
-                }
-            default: break;
+                //_rigidBody2D.velocity = new Vector2(x, y) * (_rigidBody2D.velocity / 4);
+
+                moveDirection = -moveDirection.normalized * moveSpeed;
+                _phase = ChargingPhase.None;
+                _chargePhase = false;
+                //ChangeDuration();
+                break;
+            case ChargingPhase.None:
+                break;
+            default:
+                break;
+        }
+    }
+
+    void OnCollisionEnter2D(Collision2D col)
+    {
+        if (col.gameObject.tag == "Player")
+        {
+            Player pl = col.gameObject.GetComponent<Player>();
+
+            if (pl)
+            {
+                //OnEnemyKilled();
+                _phase = ChargingPhase.ChargeBack;
+            }
+            else
+            {
+                Debug.LogWarning("There's no Player component on " + col.gameObject.name + " gameObject.");
+            }
+        }
+        else if (col.gameObject.tag == "Players Balloon")
+        {
+            PlayerBalloon balloon = col.gameObject.GetComponent<PlayerBalloon>();
+
+            if (balloon)
+            {
+                balloon.OnBalloonPoppedUp();
+            }
+            else
+            {
+                Debug.LogWarning("There's no Player Balloon component on " + col.gameObject.name + " gameObject.");
+            }
+        }
+        else
+        {
+            OnCollideWithObstacle(col.contacts[0].point);
         }
     }
 
     protected override void ChangeDuration()
     {
         base.ChangeDuration();
-        if(_isCharging) chargeDelay = Random.Range(minChargeDelayChange, maxChargeDelayChange);
+        if (_chargePhase)
+        {
+            chargeDelay = Random.Range(minChargeDelayChange, maxChargeDelayChange);
+        }
     }
 
     [ContextMenu("Get angle")]
@@ -141,5 +203,6 @@ public enum ChargingPhase
     None = -1,
     Charging = 0,
     DoCharge = 1,
-    PostCharge
+    PostCharge = 2,
+    ChargeBack = 3
 }

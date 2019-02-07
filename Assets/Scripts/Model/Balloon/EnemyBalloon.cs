@@ -12,7 +12,7 @@ public class EnemyBalloon : MonoBehaviour
     void Start()
     {
         OnBalloonDestroyed += OnBalloonHit;
-        enemyParent.OnBallonDestroyed += OnBalloonDestroyed;
+        if(enemyParent) enemyParent.OnBallonDestroyed += OnBalloonDestroyed;
     }
 
     private void OnTriggerEnter2D(Collider2D col)
@@ -20,11 +20,11 @@ public class EnemyBalloon : MonoBehaviour
         if(col.gameObject.tag == "Player")
         {
             Debug.Log("Balloon destroyed");
-            enemyParent.OnBallonDestroyed();
+            if(enemyParent) enemyParent.OnBallonDestroyed();
         }
         else
         {
-            enemyParent.OnCollideWithObstacle(col.transform.position);
+            if(enemyParent) enemyParent.OnCollideWithObstacle(col.transform.position);
         }
     }
 
@@ -35,7 +35,7 @@ public class EnemyBalloon : MonoBehaviour
 
     private void OnDestroy()
     {
-        enemyParent.OnBallonDestroyed -= OnBalloonDestroyed;
+        if(enemyParent) enemyParent.OnBallonDestroyed -= OnBalloonDestroyed;
         OnBalloonDestroyed = null;
     }
 }
