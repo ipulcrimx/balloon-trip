@@ -13,5 +13,16 @@ public class GameUIManager : MonoBehaviour
         // Lazy init...
         pausePopUp.Init();
         postGamePopUp.Init();
+
+        GameManager.instance.OnGameOver += OnGameOver;
+    }
+
+    private void OnGameOver()
+    {
+        if (!postGamePopUp.gameObject.activeInHierarchy)
+        {
+            postGamePopUp.TogglePopUp();
+            // Play game over sound...
+        }
     }
 }

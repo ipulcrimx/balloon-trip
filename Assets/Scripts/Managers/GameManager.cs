@@ -62,7 +62,7 @@ public class GameManager : MonoBehaviour
             OnGameClear();
         }
 
-        if (player == null || player.TotalBalloon <= 0)
+        if (player == null)
         {
             _phase = GamePhase.GameOver;
         }

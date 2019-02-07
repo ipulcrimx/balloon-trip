@@ -25,6 +25,8 @@ public class Enemy : MonoBehaviour
     protected float _inflatingTimer = 0;
     protected Rigidbody2D _rigidBody2D;
 
+    public bool hasBallon { get { return _hasBalloon; } }
+
     // Start is called before the first frame update
     protected virtual void Start()
     {
