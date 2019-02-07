@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
@@ -20,9 +20,19 @@ public class Player : MonoBehaviour
     }
 
     // Start is called before the first frame update
-    void Start()
+    IEnumerator Start()
     {
-        
+        yield return new WaitUntil(()=> Joystick.instance != null);
+
+        Joystick.instance.OnStartInput += () =>
+        {
+            _isInput = true;
+        };
+
+        Joystick.instance.OnStopInput += () =>
+         {
+             _isInput = false;
+         };
     }
 
     // Update is called once per frame
@@ -50,20 +60,13 @@ public class Player : MonoBehaviour
 
         if (move.sqrMagnitude >= 0.15f)
         {
-            _isInput = true;
             MoveHorizontal(move);
         }
 
         if(isJump)
         {
             isJump = false;
-            _isInput = true;
             Jump();
-        }
-
-        if (!isJump && move.sqrMagnitude < 0.1f)
-        {
-            _isInput = false;
         }
 
         if(!_isInput)

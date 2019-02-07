@@ -1417,6 +1417,11 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 8
       objectReference: {fileID: 0}
+    - target: {fileID: 6366695547818941949, guid: b5560d4ce2581364385b40877f4be659,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5560d4ce2581364385b40877f4be659, type: 3}
 --- !u!1001 &598525013
@@ -1721,24 +1726,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: moveSpeed
-      value: 40
-      objectReference: {fileID: 0}
-    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: jumpPower
-      value: 200
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902088212, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
-      propertyPath: m_Mass
-      value: 10
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902088212, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
-      propertyPath: m_GravityScale
-      value: 0.85
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
@@ -3770,7 +3757,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 21300000, guid: a6901434447d3a84ca0e08b338e6c797, type: 3}
   m_Color: {r: 0.9811321, g: 0.97964865, b: 0.63403344, a: 1}
   m_FlipX: 0
@@ -4065,10 +4052,10 @@ MonoBehaviour:
   maxDurationChange: 5
   chargingTime: 2.5
   chargeBoostTime: 0.45
-  forceMultiplier: 2500
-  chargeDelay: 2
-  minChargeDelayChange: 3
-  maxChargeDelayChange: 5
+  forceMultiplier: 1200
+  chargeDelay: 8
+  minChargeDelayChange: 5
+  maxChargeDelayChange: 15
 --- !u!212 &1850399727
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4914,6 +4901,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6366695547818941949, guid: b5560d4ce2581364385b40877f4be659,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b5560d4ce2581364385b40877f4be659, type: 3}
