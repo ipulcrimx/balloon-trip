@@ -169,14 +169,10 @@ public class Player : MonoBehaviour
     [ContextMenu("Player Hit")]
     private void PlayerHit()
     {
-        if(TotalBalloon > 0)
-        {
-            OnBallonDestroyed();
-        }
-        else
-        {
-            Debug.Log("Game Over");
+        OnBallonDestroyed();
 
+        if (TotalBalloon <= 0)
+        {
             _isDead = true;
             GetComponent<Collider2D>().isTrigger = true;
         }
