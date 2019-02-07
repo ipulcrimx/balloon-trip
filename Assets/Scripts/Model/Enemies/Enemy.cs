@@ -8,6 +8,7 @@ public class Enemy : MonoBehaviour
     [Space]
     public float moveSpeed = 3;
     public Vector2 moveDirection = Vector2.zero;
+    public float invincibleDuration = 0.75f;
     public float inflatingDelay = 1.5f;
     public float inflatingBalloonDuration = 10;
 
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour
     protected bool _hasBalloon = true;
     protected float _timer;
     protected float _inflatingTimer = 0;
+    protected float _invincibleTimer = 0;
     protected Rigidbody2D _rigidBody2D;
 
     public bool hasBallon { get { return _hasBalloon; } }
@@ -61,6 +63,12 @@ public class Enemy : MonoBehaviour
         {
             Inflating();
         }
+
+
+        if (_invincibleTimer < invincibleDuration)
+        {
+            _invincibleTimer += Time.deltaTime;
+        }
     }
 
     protected void Inflating()
@@ -90,13 +98,17 @@ public class Enemy : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
+            if (_invincibleTimer <= invincibleDuration)
+                return;
+
             Player pl = col.gameObject.GetComponent<Player>();
 
             if (pl)
             {
                 if (_hasBalloon)
                 {
-                    OnBallonDestroyed();
+                    //OnBallonDestroyed();
+                    pl.OnBallonDestroyed();
                 }
                 else
                 {

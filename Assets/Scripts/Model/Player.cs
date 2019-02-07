@@ -10,12 +10,15 @@ public class Player : MonoBehaviour
     public float moveSpeed = 0.15f;
     public float jumpPower = 0.5f;
     public float slowDownModifier = 2f;
+    [Space]
+    public float invincibleDuration = 1;
 
-    public GameObject[] balloons;
-    private Rigidbody2D _rigidBody2d;
+    public List<GameObject> balloons = new List<GameObject>();
+
     private bool _isDead = false;
-
     private bool _isInput = false;
+    private float _invinTimer = 0;
+    private Rigidbody2D _rigidBody2d;
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnPlayerHit = delegate { };
@@ -102,6 +105,17 @@ public class Player : MonoBehaviour
                 _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime / slowDownModifier);
             }
         }
+
+        if(_invinTimer < invincibleDuration)
+        {
+            _invinTimer +=Time.deltaTime;
+        }
+
+        if (TotalBalloon <= 0 && !_isDead)
+        {
+            _isDead = true;
+            GetComponent<Collider2D>().isTrigger = true;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -112,7 +126,7 @@ public class Player : MonoBehaviour
 
             if(en)
             {
-                if(en.hasBallon)
+                if(en.hasBallon && _invinTimer >= invincibleDuration)
                 {
                     OnPlayerHit();
                 }
@@ -146,19 +160,28 @@ public class Player : MonoBehaviour
 
     private void BallonHit()
     {
+        if (_invinTimer < invincibleDuration)
+            return;
+
+        int index = 0;
         GameObject bal = null;
-        foreach (GameObject g in balloons)
+        for(index = 0; index < balloons.Count;index++)
         {
-            if(g.activeInHierarchy)
+            if(balloons[index].activeInHierarchy)
             {
-                bal = g;
+                bal = balloons[index];
                 break;
             }
         }
 
         if(bal)
         {
+            Debug.Log("Index: " + index);
+            bal.transform.SetParent(null);
+            balloons.RemoveAt(index);
             bal.SetActive(false);
+
+            _invinTimer = 0;
         }
         else
         {
@@ -169,6 +192,9 @@ public class Player : MonoBehaviour
     [ContextMenu("Player Hit")]
     private void PlayerHit()
     {
+        if (_invinTimer < invincibleDuration)
+            return;
+
         OnBallonDestroyed();
 
         if (TotalBalloon <= 0)
