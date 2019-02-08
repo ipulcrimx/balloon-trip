@@ -42,11 +42,10 @@ public class Enemy : MonoBehaviour
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
         _collider2D = GetComponent<BoxCollider2D>();
-        
-        _collider2D.sharedMaterial = bounceMaterial;
 
         _rigidBody2D.mass = 8;
         _rigidBody2D.gravityScale = 0;
+        _collider2D.sharedMaterial = bounceMaterial;
 
         OnEnemyKilled += Boom;
         OnBallonDestroyed += BallDestroyed;
