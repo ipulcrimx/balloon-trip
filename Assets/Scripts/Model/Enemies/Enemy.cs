@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Events;
 
+[RequireComponent(typeof(Collider2D))]
+[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour
 {
     public GameObject balloon;
@@ -17,6 +19,11 @@ public class Enemy : MonoBehaviour
     public float minDurationChange;
     public float maxDurationChange;
 
+    [Space]
+    public PhysicsMaterial2D bounceMaterial;
+    public PhysicsMaterial2D defaultMaterial;
+        
+
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnEnemyKilled = delegate { };
     public UnityAction<Vector2> OnCollideWithObstacle = delegate { };
@@ -26,6 +33,7 @@ public class Enemy : MonoBehaviour
     protected float _inflatingTimer = 0;
     protected float _invincibleTimer = 0;
     protected Rigidbody2D _rigidBody2D;
+    protected BoxCollider2D _collider2D;
 
     public bool hasBallon { get { return _hasBalloon; } }
 
@@ -33,6 +41,9 @@ public class Enemy : MonoBehaviour
     protected virtual void Start()
     {
         _rigidBody2D = GetComponent<Rigidbody2D>();
+        _collider2D = GetComponent<BoxCollider2D>();
+        
+        _collider2D.sharedMaterial = bounceMaterial;
 
         _rigidBody2D.mass = 8;
         _rigidBody2D.gravityScale = 0;
@@ -146,6 +157,7 @@ public class Enemy : MonoBehaviour
 
         _rigidBody2D.mass = 1;
         _rigidBody2D.gravityScale = 1;
+        _collider2D.sharedMaterial = defaultMaterial;
     }
 
     protected void Boom()
