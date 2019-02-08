@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4879467207534377912}
   - component: {fileID: 4879467207534377915}
   - component: {fileID: 1344843472}
+  - component: {fileID: 2138337544}
   m_Layer: 0
   m_Name: Balloon 1
   m_TagString: Players Balloon
@@ -106,6 +107,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &2138337544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4879467207534377913}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f149dc6f0c9d844aae3db6c7b61aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7456479744715142658}
 --- !u!1 &4879467207761885016
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,6 +131,7 @@ GameObject:
   - component: {fileID: 4879467207761885019}
   - component: {fileID: 4879467207761885018}
   - component: {fileID: 1406465486}
+  - component: {fileID: 958250816}
   m_Layer: 0
   m_Name: Balloon 2
   m_TagString: Players Balloon
@@ -212,6 +227,19 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &958250816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4879467207761885016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f149dc6f0c9d844aae3db6c7b61aa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 7456479744715142658}
 --- !u!1 &4879467208002911623
 GameObject:
   m_ObjectHideFlags: 0
@@ -241,7 +269,7 @@ Transform:
   m_GameObject: {fileID: 4879467208002911623}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.0328401, y: 2.2448604, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
   m_Children:
   - {fileID: 4879467207534377912}
   - {fileID: 4879467207761885019}
@@ -311,6 +339,7 @@ MonoBehaviour:
   moveSpeed: 40
   jumpPower: 200
   slowDownModifier: 1.75
+  invincibleDuration: 1
   balloons:
   - {fileID: 4879467207534377913}
   - {fileID: 4879467207761885016}
@@ -323,7 +352,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 4879467208002911623}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
