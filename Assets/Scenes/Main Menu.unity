@@ -3558,7 +3558,7 @@ GameObject:
   - component: {fileID: 1373909859}
   - component: {fileID: 1373909858}
   m_Layer: 0
-  m_Name: Input Selector Manager
+  m_Name: Input Selector
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3576,9 +3576,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36f4775cdd9c54445abdac5da05977ab, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isDebug: 1
   selectorParent: {fileID: 2085874645}
-  offPosition: {x: 0, y: 0}
-  onPosition: {x: 0, y: 0}
+  offPosition: {x: 876, y: 350}
+  onPosition: {x: 695, y: 350}
   toggleButton: {fileID: 2133268412}
   dropdown: {fileID: 1117249162}
   inputType: 0
@@ -5097,7 +5098,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.72200006, y: 0.82800007}
   m_AnchorMax: {x: 1, y: 0.95500004}
-  m_AnchoredPosition: {x: 24.3, y: -0.87000084}
+  m_AnchoredPosition: {x: 259, y: -0.8699951}
   m_SizeDelta: {x: -48.6, y: -0.33999634}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2086243923
