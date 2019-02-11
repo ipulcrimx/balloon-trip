@@ -10,6 +10,9 @@ public class InputSelectorManager : MonoBehaviour
     public Joystick joystick;
     public Sprite analogSprite;
     public Sprite sliderSprite;
+    [Space]
+    public Vector2 analogMaxAnchor;
+    public Vector2 sliderMaxAnchor;
 
     [Space]
     public GameObject joystickParent;
@@ -46,20 +49,24 @@ public class InputSelectorManager : MonoBehaviour
             return;
         }
 
-        if(InputSelector.instance !=null)
+
+        if (InputSelector.instance !=null)
         {
             InputType type = InputSelector.instance.inputType;
-
             switch(type)
             {
                 case InputType.Analog:
                     joystick.axesToUse = Joystick.AxisOption.Both;
+                    joystick.ResetVirtualAxes(Joystick.AxisOption.Both);
                     joystick.GetComponent<Image>().sprite = analogSprite;
+                    joystick.GetComponent<RectTransform>().anchorMax = analogMaxAnchor;
                     buttonParent.SetActive(false);
                     break;
                 case InputType.Slider:
                     joystick.axesToUse = Joystick.AxisOption.OnlyHorizontal;
+                    joystick.ResetVirtualAxes(Joystick.AxisOption.OnlyHorizontal);
                     joystick.GetComponent<Image>().sprite = sliderSprite;
+                    joystick.GetComponent<RectTransform>().anchorMax = sliderMaxAnchor;
                     buttonParent.SetActive(false);
                     break;
                 case InputType.Button:

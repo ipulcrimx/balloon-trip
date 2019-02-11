@@ -49,8 +49,6 @@ public class AdsManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
-
         DontDestroyOnLoad(gameObject);
         Monetization.Initialize(gameId, testMode);
     }

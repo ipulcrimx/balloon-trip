@@ -143,7 +143,7 @@ public class GameManager : MonoBehaviour
         OnKillChanged();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         if(_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
 

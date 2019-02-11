@@ -8,11 +8,26 @@ public class ButtonInputGroup : MonoBehaviour
     public string jump_key = "Jump";
     public bool isInput { private set; get; }
 
-    CrossPlatformInputManager.VirtualAxis m_HorizontalVirtualAxis; // Reference to the joystick in the cross platform input
+    private string horizontalAxisName = "Horizontal";
+    private CrossPlatformInputManager.VirtualAxis m_HorizontalVirtualAxis; // Reference to the joystick in the cross platform input
 
     private void Awake()
     {
         isInput = false;
+    }
+
+    private void OnEnable()
+    {
+        m_HorizontalVirtualAxis = new CrossPlatformInputManager.VirtualAxis(horizontalAxisName);
+        CrossPlatformInputManager.RegisterVirtualAxis(m_HorizontalVirtualAxis);
+    }
+
+    private void Update()
+    {
+        if(!isInput)
+        {
+            m_HorizontalVirtualAxis.Update(0);
+        }
     }
 
     public void OnPointerEnterLeftButton()
@@ -28,6 +43,17 @@ public class ButtonInputGroup : MonoBehaviour
 
     }
 
+    public void OnLeftButtonDown()
+    {
+        isInput = true;
+        m_HorizontalVirtualAxis.Update(-1);
+    }
+
+    public void OnLeftButtonUp()
+    {
+        isInput = false;
+    }
+
     public void OnPointerEnterRightButton()
     {
         if(isInput)
@@ -41,6 +67,17 @@ public class ButtonInputGroup : MonoBehaviour
 
     }
 
+    public void OnRightButtonDown()
+    {
+        isInput = true;
+        m_HorizontalVirtualAxis.Update(1);
+    }
+
+    public void OnRightButtonUp()
+    {
+        isInput = false;
+    }
+
     public void OnJumpButtonUp()
     {
         CrossPlatformInputManager.SetButtonUp(jump_key);
@@ -51,13 +88,8 @@ public class ButtonInputGroup : MonoBehaviour
         CrossPlatformInputManager.SetButtonDown(jump_key);
     }
 
-    public void OnPointerDown()
+    private void OnDisable()
     {
-        isInput = true;
-    }
-
-    public void OnPointerUp()
-    {
-        isInput = false;
+        m_HorizontalVirtualAxis.Remove();
     }
 }

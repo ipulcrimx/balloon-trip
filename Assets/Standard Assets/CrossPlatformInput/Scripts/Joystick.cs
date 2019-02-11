@@ -88,6 +88,27 @@ namespace UnityStandardAssets.CrossPlatformInput
             }
         }
 
+        public void ResetVirtualAxes(AxisOption opt)
+        {
+            if (m_HorizontalVirtualAxis != null) m_HorizontalVirtualAxis.Remove();
+            if (m_VerticalVirtualAxis != null) m_VerticalVirtualAxis.Remove();
+
+            // set axes to use
+            m_UseX = (axesToUse == AxisOption.Both || axesToUse == AxisOption.OnlyHorizontal);
+            m_UseY = (axesToUse == AxisOption.Both || axesToUse == AxisOption.OnlyVertical);
+
+            if (m_UseX)
+            {
+                m_HorizontalVirtualAxis = new CrossPlatformInputManager.VirtualAxis(horizontalAxisName);
+                CrossPlatformInputManager.RegisterVirtualAxis(m_HorizontalVirtualAxis);
+            }
+            if (m_UseY)
+            {
+                m_VerticalVirtualAxis = new CrossPlatformInputManager.VirtualAxis(verticalAxisName);
+                CrossPlatformInputManager.RegisterVirtualAxis(m_VerticalVirtualAxis);
+            }
+        }
+
 
         public void OnDrag(PointerEventData data)
         {
