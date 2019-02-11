@@ -48,17 +48,20 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     IEnumerator Start()
     {
-        yield return new WaitUntil(()=> Joystick.instance != null);
-
-        Joystick.instance.OnStartInput += () =>
+        if (InputSelector.instance)
         {
-            _isInput = true;
-        };
+            if (InputSelector.instance.inputType == InputType.Button)
+            {
+                yield return new WaitForEndOfFrame();
+            }
+            else
+            {
+                yield return new WaitUntil(() => Joystick.instance != null);
 
-        Joystick.instance.OnStopInput += () =>
-         {
-             _isInput = false;
-         };
+                Joystick.instance.OnStartInput += StartInput;
+                Joystick.instance.OnStopInput += StopInput;
+            }
+        }
 
         OnPlayerHit += PlayerHit;
         OnBallonDestroyed += BallonHit;
@@ -187,6 +190,16 @@ public class Player : MonoBehaviour
         {
             PlayerHit();
         }
+    }
+
+    public void StartInput()
+    {
+        _isInput = true;
+    }
+
+    public void StopInput()
+    {
+        _isInput = false;
     }
 
     [ContextMenu("Player Hit")]
