@@ -8,7 +8,7 @@ public class InputSelector : MonoBehaviour
 {
     [Header("IS DEBUG")]
     public bool isDebug = true;
-    public Transform selectorParent;
+    public RectTransform selectorParent;
     public Vector2 offPosition;
     public Vector2 onPosition;
 
@@ -91,5 +91,6 @@ public enum InputType
     none = -1,
     Analog = 0,
     Slider = 1,
-    Button = 2
+    Button = 2,
+    InvisibleButton = 3
 }

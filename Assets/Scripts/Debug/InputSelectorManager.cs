@@ -73,6 +73,18 @@ public class InputSelectorManager : MonoBehaviour
                     joystickParent.SetActive(false);
                     buttonParent.SetActive(true);
                     break;
+                case InputType.InvisibleButton:
+                    RectTransform rectButtonParent = buttonParent.transform.GetChild(0).GetComponent<RectTransform>();
+                    rectButtonParent.anchorMin = Vector2.zero;
+                    rectButtonParent.anchorMax = new Vector2(0.5f, 1);
+                    rectButtonParent.sizeDelta = Vector2.zero;
+
+                    rectButtonParent.GetChild(0).gameObject.SetActive(false);
+                    rectButtonParent.GetChild(1).gameObject.SetActive(false);
+
+                    joystickParent.SetActive(false);
+                    buttonParent.SetActive(true);
+                    break;
                 default:
                     joystick.axesToUse = Joystick.AxisOption.Both;
                     joystick.GetComponent<Image>().sprite = analogSprite;

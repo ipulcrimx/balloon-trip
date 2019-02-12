@@ -145,14 +145,14 @@ public class GameManager : MonoBehaviour
 
     private void OnDisable()
     {
-        if(_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
+        //if(_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
 
         enemies = new Enemy[0];
     }
 
     private void OnApplicationQuit()
     {
-        if (_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
+        //if (_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
 
         enemies = new Enemy[0];
     }
