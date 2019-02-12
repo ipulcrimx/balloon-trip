@@ -2816,7 +2816,7 @@ RectTransform:
   m_AnchorMin: {x: 1, y: 0.5}
   m_AnchorMax: {x: 1, y: 0.5}
   m_AnchoredPosition: {x: -67.433, y: 0.0000095367}
-  m_SizeDelta: {x: 123.61, y: 31.71}
+  m_SizeDelta: {x: 123.61, y: 55.21}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1117249162
 MonoBehaviour:
@@ -2868,8 +2868,6 @@ MonoBehaviour:
     - m_Text: Slider
       m_Image: {fileID: 0}
     - m_Text: Button
-      m_Image: {fileID: 0}
-    - m_Text: Invisble Button
       m_Image: {fileID: 0}
   m_OnValueChanged:
     m_PersistentCalls:
@@ -3580,8 +3578,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isDebug: 1
   selectorParent: {fileID: 2085874645}
-  offPosition: {x: 792, y: 316}
-  onPosition: {x: 627, y: 316}
+  offPosition: {x: 876, y: 350}
+  onPosition: {x: 695, y: 350}
   toggleButton: {fileID: 2133268412}
   dropdown: {fileID: 1117249162}
   inputType: 0
@@ -5100,7 +5098,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.72200006, y: 0.82800007}
   m_AnchorMax: {x: 1, y: 0.95500004}
-  m_AnchoredPosition: {x: 260.8, y: -0.8699951}
+  m_AnchoredPosition: {x: 259, y: -0.8699951}
   m_SizeDelta: {x: -48.6, y: -0.33999634}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2086243923
