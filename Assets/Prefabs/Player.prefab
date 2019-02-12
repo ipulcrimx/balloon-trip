@@ -340,6 +340,9 @@ MonoBehaviour:
   jumpPower: 200
   slowDownModifier: 1.75
   invincibleDuration: 1
+  thresholdSpeed: {x: 2, y: 2}
+  pushDownForce: 4
+  maxHorizontalSpeed: 25
   balloons:
   - {fileID: 4879467207534377913}
   - {fileID: 4879467207761885016}

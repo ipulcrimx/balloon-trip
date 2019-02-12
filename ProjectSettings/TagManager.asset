@@ -7,6 +7,7 @@ TagManager:
   - Enemy
   - Players Balloon
   - Wrap Point
+  - Interactable Wall
   layers:
   - Default
   - TransparentFX
@@ -14,8 +15,10 @@ TagManager:
   - 
   - Water
   - UI
-  - Enemy
   - 
+  - 
+  - Walls
+  - Interactable Wall
   - 
   - 
   - 

@@ -13,6 +13,11 @@ public class Player : MonoBehaviour
     [Space]
     public float invincibleDuration = 1;
 
+    [Space]
+    public Vector2 thresholdSpeed;
+    public float pushDownForce =  2.5f;
+    public float maxHorizontalSpeed;
+    [Space]
     public List<GameObject> balloons = new List<GameObject>();
 
     private bool _isDead = false;
@@ -87,6 +92,21 @@ public class Player : MonoBehaviour
             Jump();
         }
 #endif
+        if(_invinTimer < invincibleDuration)
+        {
+            _invinTimer +=Time.deltaTime;
+        }
+
+        if (TotalBalloon <= 0 && !_isDead)
+        {
+            _isDead = true;
+            GetComponent<Collider2D>().isTrigger = true;
+        }
+    }
+
+    private void FixedUpdate()
+    {
+
         if (!_isDead)
         {
             Vector2 move = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"));
@@ -109,17 +129,12 @@ public class Player : MonoBehaviour
             }
         }
 
-        if(_invinTimer < invincibleDuration)
+        if(_rigidBody2d.velocity.x > maxHorizontalSpeed)
         {
-            _invinTimer +=Time.deltaTime;
-        }
-
-        if (TotalBalloon <= 0 && !_isDead)
-        {
-            _isDead = true;
-            GetComponent<Collider2D>().isTrigger = true;
+            _rigidBody2d.velocity = new Vector2(maxHorizontalSpeed, _rigidBody2d.velocity.y);
         }
     }
+
 
     private void OnCollisionEnter2D(Collision2D col)
     {
@@ -139,6 +154,13 @@ public class Player : MonoBehaviour
                 Debug.LogWarning("There's no enemy component on collided object!");
             }
         }
+        else if (col.gameObject.tag == "Interactable Wall")
+        {
+            if (_rigidBody2d.velocity.y < thresholdSpeed.y)
+            {
+                _rigidBody2d.velocity += Vector2.down *pushDownForce;
+            }
+        }
     }
 
     #region Input Methods
@@ -152,12 +174,16 @@ public class Player : MonoBehaviour
     {
         //transform.position += moveSpeed * Time.deltaTime * (Vector3)direction;
         _rigidBody2d.AddForce(direction * moveSpeed);
+        //speed = _rigidBody2d.velocity;
+        //magnitude = speed.magnitude;
     }
 
     private void Jump()
     {
         //_rigidBody2d.velocity = Vector2.zero;
         _rigidBody2d.AddForce(Vector2.up * jumpPower);
+        //speed = _rigidBody2d.velocity;
+        //magnitude = speed.magnitude;
     }
     #endregion
 
