@@ -19,3 +19,25 @@
 
 # Unity3D Generated File On Crash Reports
 sysinfo.txt
+
+\.vs/Balloon Trip/v15/Server/sqlite3/storage\.ide
+
+\.vs/Balloon Trip/v15/Server/sqlite3/db\.lock
+
+\.vs/Balloon Trip/v15/Server/sqlite3/storage\.ide-shm
+
+\.vs/Balloon Trip/v15/Server/sqlite3/storage\.ide-wal
+
+\.vs/Balloon Trip/DesignTimeBuild/\.dtbcache
+
+\.gradle/4\.6/fileChanges/last-build\.bin
+
+\.gradle/4\.6/fileHashes/fileHashes\.lock
+
+\.gradle/4\.6/taskHistory/taskHistory\.lock
+
+\.gradle/buildOutputCleanup/buildOutputCleanup\.lock
+
+\.gradle/buildOutputCleanup/cache\.properties
+
+*.apk
