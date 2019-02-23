@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8378dbfdf1fad24797dac5795878c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyParent: {fileID: 3183557399415006843}
+  enemyParent: {fileID: 0}
 --- !u!1 &6366695547997392324
 GameObject:
   m_ObjectHideFlags: 0
@@ -132,10 +132,10 @@ GameObject:
   - component: {fileID: 6366695547997392323}
   - component: {fileID: 1295685083743238937}
   - component: {fileID: 5753220729251116436}
-  - component: {fileID: 3183557399415006843}
+  - component: {fileID: 5894424592947923791}
   - component: {fileID: 9211031001146567063}
   m_Layer: 8
-  m_Name: Enemy
+  m_Name: Alien
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -251,7 +251,7 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2.5}
   m_EdgeRadius: 0
---- !u!114 &3183557399415006843
+--- !u!114 &5894424592947923791
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -260,18 +260,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 6366695547997392324}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae62c7e8fa3e5084ea8604ac2711fff7, type: 3}
+  m_Script: {fileID: 11500000, guid: 59681abcb901cdd419f8a072f0201d0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   balloon: {fileID: 6366695547818941951}
   moveSpeed: 10
-  moveDirection: {x: 0, y: 6}
   invincibleDuration: 0.75
   inflatingDelay: 3
-  inflatingBalloonDuration: 7
+  inflatingBalloonDuration: 8
+  moveDirection: {x: 1, y: 0}
   duration: 1
-  minDurationChange: 1.5
-  maxDurationChange: 3.85
+  minDuration: 1.5
+  maxDuration: 4
   bounceMaterial: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
   defaultMaterial: {fileID: 6200000, guid: 94e137daba022224d82afb5b9ae33659, type: 2}
 --- !u!114 &9211031001146567063
