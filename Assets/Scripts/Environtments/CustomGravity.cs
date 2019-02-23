@@ -12,6 +12,25 @@ public class CustomGravity : MonoBehaviour
 
     private Rigidbody2D _rigidBody;
 
+    /// <summary>
+    /// Direction to Object from center of planet
+    /// </summary>
+    public Vector2 dirFromCenter
+    {
+        get
+        {
+            return (transform.position - planetTransform.position).normalized;
+        }
+    }
+
+    public float distanceFromCenter
+    {
+        get
+        {
+            return (transform.position - planetTransform.position).magnitude;
+        }
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -23,8 +42,7 @@ public class CustomGravity : MonoBehaviour
     {
         if(isAffected)
         {
-            transform.up = (transform.position - planetTransform.position).normalized;
-
+            transform.up = dirFromCenter;
             _rigidBody.AddForce(-transform.up * gravityValue.gravity * _rigidBody.mass);
         }
     }
