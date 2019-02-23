@@ -83,8 +83,6 @@ public class Alien : MonoBehaviour
             }
 
             transform.Translate(moveDirection * Time.deltaTime);
-            //_rigidbody.AddForce(moveDirection);
-
         }
         else
         {
@@ -92,12 +90,52 @@ public class Alien : MonoBehaviour
         }
 
         UpdateArea();
-        if (_invincibleTimer < invincibleDuration)
+        if (_invincibleTimer <= invincibleDuration)
         {
             _invincibleTimer += Time.deltaTime;
         }
     }
+    #region Collide and Collision Method
+    private void OnCollisionEnter2D(Collision2D col)
+    {
+        if(col.gameObject.tag =="Player")
+        {
+            if (_invincibleTimer <= invincibleDuration)
+                return;
 
+            Player pl = col.gameObject.GetComponent<Player>();
+            if (pl)
+            {
+                if (_hasBalloon)
+                {
+                    pl.OnBallonDestroyed();
+                }
+                else
+                {
+                    OnDead();
+                }
+            }
+            else
+            {
+                Debug.LogWarning("There's no Player component on " + col.gameObject.name + " gameObject.");
+            }
+        }
+        else if(col.gameObject.tag == "Players Balloon")
+        {
+            PlayerBalloon balloon = col.gameObject.GetComponent<PlayerBalloon>();
+
+            if (balloon)
+            {
+                balloon.OnBalloonPoppedUp();
+            }
+            else
+            {
+                Debug.LogWarning("There's no Player Balloon component on " + col.gameObject.name + " gameObject.");
+            }
+        }
+    }
+    #endregion
+    #region extended method in update
     protected void Inflating()
     {
         _inflatingTimer += Time.deltaTime;
@@ -118,6 +156,22 @@ public class Alien : MonoBehaviour
         else
         {
             _hasBalloon = true;
+        }
+    }
+
+    protected void UpdateArea()
+    {
+        if (_customGrav.distanceFromCenter <= _boundary.below)
+        {
+            _areaType = AreaType.Bellow;
+        }
+        else if (_customGrav.distanceFromCenter >= _boundary.above)
+        {
+            _areaType = AreaType.Above;
+        }
+        else
+        {
+            _areaType = AreaType.SafeArea;
         }
     }
 
@@ -149,6 +203,17 @@ public class Alien : MonoBehaviour
         Debug.Log("Change direction to " + moveDirection);
     }
 
+    /// <summary>
+    /// Check if Alien is still within save area
+    /// </summary>
+    /// <returns></returns>
+    protected bool IsWIthinArea()
+    {
+        return _customGrav.distanceFromCenter > _boundary.below &&
+            _customGrav.distanceFromCenter < _boundary.above;
+    }
+    #endregion
+    #region subscribed method
     private void BallDestroyed()
     {
         _hasBalloon = false;
@@ -167,32 +232,7 @@ public class Alien : MonoBehaviour
         transform.position = Vector3.one * -10;
         gameObject.SetActive(false);
     }
-
-    /// <summary>
-    /// Check if Alien is still within save area
-    /// </summary>
-    /// <returns></returns>
-    protected bool IsWIthinArea()
-    {
-        return _customGrav.distanceFromCenter > _boundary.below && 
-            _customGrav.distanceFromCenter < _boundary.above;
-    }
-
-    protected void UpdateArea()
-    {
-        if(_customGrav.distanceFromCenter <= _boundary.below)
-        {
-            _areaType = AreaType.Bellow;
-        }
-        else if(_customGrav.distanceFromCenter >= _boundary.above)
-        {
-            _areaType = AreaType.Above;
-        }
-        else
-        {
-            _areaType = AreaType.SafeArea;
-        }
-    }
+    #endregion
 
     private void OnDestroy()
     {
