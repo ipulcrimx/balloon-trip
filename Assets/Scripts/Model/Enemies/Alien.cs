@@ -10,6 +10,7 @@ public class Alien : MonoBehaviour
     public GameObject balloon;
 
     [Space]
+    public bool isFacingRight = true;
     public float moveSpeed;
 
     [Space]
@@ -23,6 +24,10 @@ public class Alien : MonoBehaviour
     public float duration;
     public float minDuration;
     public float maxDuration;
+    [SerializeField]
+    protected AreaType _areaType = AreaType.None;
+    [SerializeField]
+    protected AreaBoundary _boundary = new AreaBoundary();
 
     [Space]
     public PhysicsMaterial2D bounceMaterial;
@@ -67,7 +72,7 @@ public class Alien : MonoBehaviour
     {
         if (_hasBalloon)
         {
-            if (_moveTimer >= duration)
+            if (_moveTimer >= duration || !IsWIthinArea())
             {
                 ChangeDuration();
                 ChangeDirection(Vector2.zero);
@@ -77,7 +82,7 @@ public class Alien : MonoBehaviour
                 _moveTimer += Time.deltaTime;
             }
 
-            transform.Translate(moveDirection * moveSpeed * Time.deltaTime);
+            transform.Translate(moveDirection * Time.deltaTime);
             //_rigidbody.AddForce(moveDirection);
 
         }
@@ -86,7 +91,7 @@ public class Alien : MonoBehaviour
             Inflating();
         }
 
-        //Debug.Log(_customGrav.distanceFromCenter);
+        UpdateArea();
         if (_invincibleTimer < invincibleDuration)
         {
             _invincibleTimer += Time.deltaTime;
@@ -124,9 +129,23 @@ public class Alien : MonoBehaviour
 
     private void ChangeDirection(Vector2 dir)
     {
-        float rnd = Random.Range(-1f, 1f);
+        float rndX = 0;
+        float rndY = 0;
 
-        moveDirection = new Vector2(1, rnd);
+        switch (_areaType)
+        {
+            case AreaType.SafeArea: rndY = Random.Range(-1f, 1f); break;
+            case AreaType.Bellow: rndY = Random.Range(0, 1f); break;
+            case AreaType.Above: rndY = Random.Range(-1f, 0); break;
+            default: rndY = Random.Range(-1f, 1f); break;
+        }
+
+        if (isFacingRight)
+            rndX = Random.Range(0, moveSpeed);
+        else
+            rndX = Random.Range(-moveSpeed, 0);
+
+        moveDirection = new Vector2(rndX, rndY);
         Debug.Log("Change direction to " + moveDirection);
     }
 
@@ -149,10 +168,51 @@ public class Alien : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Check if Alien is still within save area
+    /// </summary>
+    /// <returns></returns>
+    protected bool IsWIthinArea()
+    {
+        return _customGrav.distanceFromCenter > _boundary.below && 
+            _customGrav.distanceFromCenter < _boundary.above;
+    }
+
+    protected void UpdateArea()
+    {
+        if(_customGrav.distanceFromCenter <= _boundary.below)
+        {
+            _areaType = AreaType.Bellow;
+        }
+        else if(_customGrav.distanceFromCenter >= _boundary.above)
+        {
+            _areaType = AreaType.Above;
+        }
+        else
+        {
+            _areaType = AreaType.SafeArea;
+        }
+    }
+
     private void OnDestroy()
     {
         OnDead = null;
         OnBallonDestroyed = null;
         OnCollideWithObstacle = null;
+    }
+
+    [System.Serializable]
+    protected class AreaBoundary
+    {
+        public float below = 65f;
+        public float above = 83f;
+    }
+
+    protected enum AreaType
+    {
+        None = -1,
+        SafeArea = 0,
+        Bellow = 1,
+        Above = 2
     }
 }
