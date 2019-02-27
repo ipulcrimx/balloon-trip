@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 1567836971063158109}
   m_Layer: 0
   m_Name: Asteroid
-  m_TagString: Untagged
+  m_TagString: Asteroid
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -48,7 +48,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 50
+  m_Mass: 10
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 0
@@ -227,12 +227,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateSpeed: 120
-  randomAngle: 15
-  minAngle: -25
-  maxAngle: 25
+  randomAngle: 0
+  minAngle: 150
+  maxAngle: 210
   randomForce: 100
-  minForce: 100
-  maxForce: 2500
+  minForce: 1000
+  maxForce: 20000
 --- !u!114 &1567836971063158109
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAffected: 1
-  gravityValue: {fileID: 11400000, guid: 631cba9346431a046a70d5759e1eaafe, type: 2}
+  gravityValue: {fileID: 11400000, guid: 193d415ef2b136849b65d8c25d1e784a, type: 2}
   planetTransform: {fileID: 6639394525044586866, guid: a130a108fcc877c46899bbee0699af75,
     type: 3}
 --- !u!1 &5672482167272316735

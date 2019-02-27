@@ -8,6 +8,8 @@ TagManager:
   - Players Balloon
   - Wrap Point
   - Interactable Wall
+  - Planet
+  - Asteroid
   layers:
   - Default
   - TransparentFX
@@ -15,10 +17,10 @@ TagManager:
   - 
   - Water
   - UI
+  - Enemy
   - 
+  - Asteroid
   - 
-  - Walls
-  - Interactable Wall
   - 
   - 
   - 

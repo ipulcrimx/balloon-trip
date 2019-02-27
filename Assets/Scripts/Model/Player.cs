@@ -68,6 +68,10 @@ public class Player : MonoBehaviour
                 Debug.LogWarning("There's no enemy component on collided object!");
             }
         }
+        else if(col.gameObject.tag == "Asteroid")
+        {
+            OnPlayerHit();
+        }
     }
 
     public void DoJump(float jumpPower)
@@ -90,7 +94,6 @@ public class Player : MonoBehaviour
 
         if (bal)
         {
-            Debug.Log("Index: " + index);
             bal.transform.SetParent(null);
             balloons.RemoveAt(index);
             bal.SetActive(false);

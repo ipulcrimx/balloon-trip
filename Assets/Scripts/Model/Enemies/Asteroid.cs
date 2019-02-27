@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -19,7 +17,7 @@ public class Asteroid : MonoBehaviour
     public float maxForce;
 
     public UnityAction OnHitPlanet = delegate { };
-    public UnityAction OnStartShoot = delegate { };
+    public UnityAction<Transform> OnStartShoot = delegate { };
 
     private bool _isActive;
     private Transform _childSprite;
@@ -36,6 +34,7 @@ public class Asteroid : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        OnHitPlanet += OnLand;
         RandomizeParameter();
     }
 
@@ -61,17 +60,26 @@ public class Asteroid : MonoBehaviour
 
     public void Shoot()
     {
-        float rndX = Mathf.Sin(Mathf.Deg2Rad * randomAngle);
-        float rndY = Mathf.Cos(Mathf.Deg2Rad * randomAngle);
+        RandomizeParameter();
 
-        _rigidBody2d.AddForce(new Vector2(rndX, rndY) * randomForce);
-        OnStartShoot();
+        float rndX = Mathf.Sin(randomAngle);
+        float rndY = Mathf.Cos(randomAngle);
+
+        Vector2 rnd = new Vector2(rndX, rndY > 0? -rndY:rndY) * randomForce;
+        Debug.Log(rnd);
+        _rigidBody2d.AddForce(rnd );
+        OnStartShoot(transform);
     }
 
     private void RandomizeParameter()
     {
         randomAngle = Random.Range(minAngle, maxAngle);
         randomForce = Random.Range(minForce, maxForce);
+    }
+
+    private void OnLand()
+    {
+        gameObject.SetActive(false);
     }
 
     private void OnDisable()
