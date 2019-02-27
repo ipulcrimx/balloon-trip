@@ -264,8 +264,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balloon: {fileID: 6366695547818941951}
-  isFacingRight: 0
+  isFacingRight: 1
   moveSpeed: 10
+  horizontalMoveSpeed: 1.75
   invincibleDuration: 0.75
   inflatingDelay: 3
   inflatingBalloonDuration: 8
