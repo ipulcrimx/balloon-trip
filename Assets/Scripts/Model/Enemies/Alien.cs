@@ -12,6 +12,8 @@ public class Alien : MonoBehaviour
     [Space]
     public bool isFacingRight = true;
     public float moveSpeed;
+    [Range(0,3.5f)]
+    public float verticalMoveSpeed;
 
     [Space]
     public float invincibleDuration = 0.75f;
@@ -20,6 +22,7 @@ public class Alien : MonoBehaviour
 
     [Header("Move Direction Parameters")]
     public Vector2 moveDirection = Vector2.zero;
+    public Vector2 nextMoveDirection;
     [Space]
     public float duration;
     public float minDuration;
@@ -32,6 +35,9 @@ public class Alien : MonoBehaviour
     [Space]
     public PhysicsMaterial2D bounceMaterial;
     public PhysicsMaterial2D defaultMaterial;
+
+    [Header("Distance")]
+    public float distanceToCenter;
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnDead = delegate { };
@@ -82,6 +88,7 @@ public class Alien : MonoBehaviour
                 _moveTimer += Time.deltaTime;
             }
 
+            moveDirection = Vector2.Lerp(moveDirection, nextMoveDirection, (Time.deltaTime * 2.5f) / duration);
             transform.Translate(moveDirection * Time.deltaTime);
         }
         else
@@ -161,11 +168,12 @@ public class Alien : MonoBehaviour
 
     protected void UpdateArea()
     {
-        if (_customGrav.distanceFromCenter <= _boundary.below)
+        distanceToCenter = _customGrav.distanceFromCenter;
+        if (distanceToCenter <= _boundary.below)
         {
             _areaType = AreaType.Bellow;
         }
-        else if (_customGrav.distanceFromCenter >= _boundary.above)
+        else if (distanceToCenter >= _boundary.above)
         {
             _areaType = AreaType.Above;
         }
@@ -188,10 +196,10 @@ public class Alien : MonoBehaviour
 
         switch (_areaType)
         {
-            case AreaType.SafeArea: rndY = Random.Range(-1f, 1f); break;
-            case AreaType.Bellow: rndY = Random.Range(0, 1f); break;
-            case AreaType.Above: rndY = Random.Range(-1f, 0); break;
-            default: rndY = Random.Range(-1f, 1f); break;
+            case AreaType.SafeArea: rndY = Random.Range(-verticalMoveSpeed, verticalMoveSpeed); break;
+            case AreaType.Bellow: rndY = Random.Range(0, verticalMoveSpeed); break;
+            case AreaType.Above: rndY = Random.Range(-verticalMoveSpeed, 0); break;
+            default: rndY = Random.Range(-verticalMoveSpeed, verticalMoveSpeed); break;
         }
 
         if (isFacingRight)
@@ -199,8 +207,8 @@ public class Alien : MonoBehaviour
         else
             rndX = Random.Range(-moveSpeed, 0);
 
-        moveDirection = new Vector2(rndX, rndY);
-        Debug.Log("Change direction to " + moveDirection);
+        nextMoveDirection = new Vector2(rndX, rndY);
+        //Debug.Log("Change direction to " + moveDirection);
     }
 
     /// <summary>
