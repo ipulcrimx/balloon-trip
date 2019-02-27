@@ -23,16 +23,17 @@ public class AsteroidManager : MonoBehaviour
     private int _positionIndex;
     private float _intervalTimer;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
-        
+        if(_intervalTimer <= nextSpawn)
+        {
+            _intervalTimer += Time.deltaTime;
+        }
+        else
+        {
+            CallAsteroid();
+        }
     }
 
     [ContextMenu("Call Asteroid")]
@@ -58,6 +59,7 @@ public class AsteroidManager : MonoBehaviour
         }
 
         asteroid.Shoot();
+        RandomizeNextInterval();
     }
 
     private void OnStartShot(Transform tr)
@@ -65,8 +67,6 @@ public class AsteroidManager : MonoBehaviour
         tr.parent = asteroidParent;
         tr.position = spawPositions[_positionIndex].position;
         tr.localScale = Vector3.one * Random.Range(minScale, maxScale);
-
-        RandomizeNextInterval();
     }
 
     private void RandomizeNextInterval()
