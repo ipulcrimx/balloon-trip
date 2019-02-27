@@ -200,7 +200,7 @@ public class Alien : MonoBehaviour
             rndX = Random.Range(-moveSpeed, 0);
 
         moveDirection = new Vector2(rndX, rndY);
-        Debug.Log("Change direction to " + moveDirection);
+        //Debug.Log("Change direction to " + moveDirection);
     }
 
     /// <summary>
