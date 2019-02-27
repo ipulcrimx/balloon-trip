@@ -264,21 +264,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   balloon: {fileID: 6366695547818941951}
-  isFacingRight: 1
+  isFacingRight: 0
   moveSpeed: 10
   invincibleDuration: 0.75
   inflatingDelay: 3
   inflatingBalloonDuration: 8
   moveDirection: {x: 1, y: 0}
+  nextMoveDirection: {x: 1, y: 0}
   duration: 1
   minDuration: 1.5
   maxDuration: 4
   _areaType: -1
   _boundary:
-    below: 65
+    below: 69
     above: 83
   bounceMaterial: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
   defaultMaterial: {fileID: 6200000, guid: 94e137daba022224d82afb5b9ae33659, type: 2}
+  distanceToCenter: 0
 --- !u!114 &9211031001146567063
 MonoBehaviour:
   m_ObjectHideFlags: 0

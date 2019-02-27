@@ -20,6 +20,7 @@ public class Alien : MonoBehaviour
 
     [Header("Move Direction Parameters")]
     public Vector2 moveDirection = Vector2.zero;
+    public Vector2 nextMoveDirection;
     [Space]
     public float duration;
     public float minDuration;
@@ -32,6 +33,9 @@ public class Alien : MonoBehaviour
     [Space]
     public PhysicsMaterial2D bounceMaterial;
     public PhysicsMaterial2D defaultMaterial;
+
+    [Header("Distance")]
+    public float distanceToCenter;
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnDead = delegate { };
@@ -82,6 +86,7 @@ public class Alien : MonoBehaviour
                 _moveTimer += Time.deltaTime;
             }
 
+            moveDirection = Vector2.Lerp(moveDirection, nextMoveDirection, (Time.deltaTime*1.5f)/duration);
             transform.Translate(moveDirection * Time.deltaTime);
         }
         else
@@ -161,11 +166,12 @@ public class Alien : MonoBehaviour
 
     protected void UpdateArea()
     {
-        if (_customGrav.distanceFromCenter <= _boundary.below)
+        distanceToCenter = _customGrav.distanceFromCenter;
+        if (distanceToCenter <= _boundary.below)
         {
             _areaType = AreaType.Bellow;
         }
-        else if (_customGrav.distanceFromCenter >= _boundary.above)
+        else if (distanceToCenter >= _boundary.above)
         {
             _areaType = AreaType.Above;
         }
@@ -199,7 +205,7 @@ public class Alien : MonoBehaviour
         else
             rndX = Random.Range(-moveSpeed, 0);
 
-        moveDirection = new Vector2(rndX, rndY);
+        nextMoveDirection = new Vector2(rndX, rndY);
         //Debug.Log("Change direction to " + moveDirection);
     }
 
