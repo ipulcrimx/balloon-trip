@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnPlayerHit = delegate { };
+    public UnityAction OnEnterBlackHole = delegate { };
+    public UnityAction OnExitBlackHole = delegate { };
 
     public float distanceFromInitialPosition
     {
@@ -55,6 +57,16 @@ public class Player : MonoBehaviour
     {
         OnPlayerHit += PlayerHit;
         OnBallonDestroyed += BallonHit;
+
+        OnEnterBlackHole += delegate ()
+        {
+            _rigidBody2d.gravityScale = 0.75f;
+        };
+
+        OnExitBlackHole += delegate ()
+        {
+            _rigidBody2d.gravityScale = 1.7f;
+        };
     }
 
     // Update is called once per frame

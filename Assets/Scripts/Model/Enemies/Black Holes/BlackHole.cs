@@ -33,22 +33,24 @@ public class BlackHole : MonoBehaviour
             Transform tr = col.transform;
             Player pl = tr.GetComponent<Player>();
 
+            pl.OnEnterBlackHole();
             if (pl.distanceFromInitialPosition < distanceLevels[0])
             {
-                tr.position = Vector3.Lerp(tr.position, transform.position, Time.deltaTime * suckPower);
+                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * suckPower);
             }
             else if (pl.distanceFromInitialPosition < distanceLevels[1])
             {
-                tr.position = Vector3.Lerp(tr.position, transform.position, Time.deltaTime * suckPower / 3);
+                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * suckPower / 3);
             }
             else if (pl.distanceFromInitialPosition < distanceLevels[2])
             {
-                tr.position = Vector3.Lerp(tr.position, transform.position, Time.deltaTime * suckPower/ 5);
+                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * suckPower / 5);
             }
             else
             {
-                tr.position = Vector3.Lerp(tr.position, transform.position, Time.deltaTime * suckPower / 30);
+                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * suckPower / 30);
             }
+
             tr.GetComponent<CustomGravity>().isDisturbed = true;
 
             if (Vector2.Distance(tr.position, transform.position) <= damageArea)
@@ -79,10 +81,24 @@ public class BlackHole : MonoBehaviour
     private void OnTriggerExit2D(Collider2D col)
     {
         if(col.gameObject.tag == "Asteroid" ||
-           col.gameObject.tag == "Player"||
            col.gameObject.tag == "Enemy" || col.gameObject.tag == "Enemies")
         {
             col.gameObject.GetComponent<CustomGravity>().isDisturbed = false;
         }
+        else if (col.gameObject.tag == "Player")
+        {
+            col.gameObject.GetComponent<CustomGravity>().isDisturbed = false;
+            col.gameObject.GetComponent<Player>().OnExitBlackHole();
+        }
+    }
+
+    private Vector2 GetDirection(Vector2 startPos)
+    {
+        Vector2 dir = (Vector2)transform.position - startPos;
+        float length = dir.magnitude;
+        dir = dir.normalized;
+
+
+        return dir * (length * 2.5f);
     }
 }
