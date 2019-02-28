@@ -12,13 +12,20 @@ public class Player : MonoBehaviour
     public float backToPositionSpeed;
 
     private bool _isDead = false;
+    private Vector2 _initialPosition;
     private Rigidbody2D _rigidBody2d;
     private CustomGravity _custGravity;
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnPlayerHit = delegate { };
 
-    private Vector2 _initialPosition;
+    public float distanceFromInitialPosition
+    {
+        get
+        {
+            return ((Vector2)transform.position - _initialPosition).magnitude;
+        }
+    }
 
     public int TotalBalloon
     {
@@ -59,13 +66,13 @@ public class Player : MonoBehaviour
             GetComponent<Collider2D>().isTrigger = true;
         }
 
-        if(!_custGravity.isDisturbed && Mathf.Abs(transform.position.x - _initialPosition.x) > thresholdPosition)
+        if (!_custGravity.isDisturbed && Mathf.Abs(transform.position.x - _initialPosition.x) > thresholdPosition)
         {
-            transform.position = Vector2.Lerp(
-                transform.position, 
+                transform.position = Vector2.Lerp(
+                transform.position,
                 new Vector2
-                (_initialPosition.x, transform.position.y), 
-                Time.deltaTime/backToPositionSpeed);
+                (_initialPosition.x, transform.position.y),
+                Time.deltaTime / backToPositionSpeed);
         }
     }
 

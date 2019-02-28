@@ -41,14 +41,13 @@ public class CustomGravity : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(isAffected)
+        transform.up = dirFromCenter;
+        if (isAffected)
         {
-            transform.up = dirFromCenter;
             _rigidBody.AddForce(-transform.up * gravityValue.gravity * _rigidBody.mass);
         }
-        else if(isDisturbed)
+        else if (isDisturbed)
         {
-            transform.up = dirFromCenter;
             _rigidBody.AddForce(-transform.up * gravityValue.gravity * _rigidBody.mass / 3);
         }
     }
