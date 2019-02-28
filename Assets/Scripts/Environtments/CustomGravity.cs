@@ -6,6 +6,7 @@ using UnityEngine;
 public class CustomGravity : MonoBehaviour
 {
     public bool isAffected = true;
+    public bool isDisturbed = false;
     [Space]
     public GravValueScriptableObject gravityValue;
     public Transform planetTransform;
@@ -44,6 +45,11 @@ public class CustomGravity : MonoBehaviour
         {
             transform.up = dirFromCenter;
             _rigidBody.AddForce(-transform.up * gravityValue.gravity * _rigidBody.mass);
+        }
+        else if(isDisturbed)
+        {
+            transform.up = dirFromCenter;
+            _rigidBody.AddForce(-transform.up * gravityValue.gravity * _rigidBody.mass / 3);
         }
     }
 }
