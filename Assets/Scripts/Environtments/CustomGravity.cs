@@ -48,7 +48,7 @@ public class CustomGravity : MonoBehaviour
         }
         else if (isDisturbed)
         {
-            _rigidBody.AddForce(-transform.up * gravityValue.gravity * _rigidBody.mass / 5);
+            _rigidBody.AddForce(-transform.up * gravityValue.gravity * _rigidBody.mass / 2);
         }
     }
 }

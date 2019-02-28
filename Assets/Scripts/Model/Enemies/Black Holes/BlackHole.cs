@@ -66,9 +66,9 @@ public class BlackHole : MonoBehaviour
         else if (col.gameObject.tag == "Asteroid")
         {
             Transform tr = col.transform;
-            tr.position = Vector3.Lerp(tr.position, transform.position, (Time.deltaTime * 3) * suckPower);
+            tr.position = Vector3.Lerp(tr.position, transform.position, (Time.deltaTime * 1.75f) * suckPower);
 
-            if (Vector2.Distance(tr.position, transform.position) <= damageArea)
+            if (Vector2.Distance(tr.position, transform.position) <= damageArea * 2.25f)
             {
                 Destroy(tr.gameObject);
             }
