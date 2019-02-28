@@ -7,12 +7,27 @@ public class Player : MonoBehaviour
 {
     public float jumpPower = 0.5f;
     public List<GameObject> balloons = new List<GameObject>();
+    [Space]
+    public float thresholdPosition;
+    public float backToPositionSpeed;
 
     private bool _isDead = false;
+    private Vector2 _initialPosition;
     private Rigidbody2D _rigidBody2d;
+    private CustomGravity _custGravity;
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnPlayerHit = delegate { };
+    public UnityAction OnEnterBlackHole = delegate { };
+    public UnityAction OnExitBlackHole = delegate { };
+
+    public float distanceFromInitialPosition
+    {
+        get
+        {
+            return ((Vector2)transform.position - _initialPosition).magnitude;
+        }
+    }
 
     public int TotalBalloon
     {
@@ -34,6 +49,7 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _rigidBody2d = GetComponent<Rigidbody2D>();
+        _custGravity = GetComponent<CustomGravity>();
     }
 
     // Start is called before the first frame update
@@ -41,6 +57,16 @@ public class Player : MonoBehaviour
     {
         OnPlayerHit += PlayerHit;
         OnBallonDestroyed += BallonHit;
+
+        OnEnterBlackHole += delegate ()
+        {
+            _rigidBody2d.gravityScale = 0.75f;
+        };
+
+        OnExitBlackHole += delegate ()
+        {
+            _rigidBody2d.gravityScale = 1.7f;
+        };
     }
 
     // Update is called once per frame
@@ -50,6 +76,15 @@ public class Player : MonoBehaviour
         {
             _isDead = true;
             GetComponent<Collider2D>().isTrigger = true;
+        }
+
+        if (!_custGravity.isDisturbed && Mathf.Abs(transform.position.x - _initialPosition.x) > thresholdPosition)
+        {
+                transform.position = Vector2.Lerp(
+                transform.position,
+                new Vector2
+                (_initialPosition.x, transform.position.y),
+                Time.deltaTime / backToPositionSpeed);
         }
     }
 
