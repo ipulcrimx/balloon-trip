@@ -1687,29 +1687,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 540137740}
   m_CullTransparentMesh: 0
---- !u!1 &596461974 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4879467208002911623, guid: e377d011a1775ed4f9e21fe0f58c0991,
-    type: 3}
-  m_PrefabInstance: {fileID: 695756338}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &596461979
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 596461974}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e93bad2fc53e17e49876dc8311524e35, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  isAffected: 0
-  isDisturbed: 0
-  gravityValue: {fileID: 11400000, guid: 631cba9346431a046a70d5759e1eaafe, type: 2}
-  planetTransform: {fileID: 6639394525044586866, guid: a130a108fcc877c46899bbee0699af75,
-    type: 3}
 --- !u!1 &598602372
 GameObject:
   m_ObjectHideFlags: 0
@@ -1903,7 +1880,7 @@ GameObject:
   - component: {fileID: 606828497}
   - component: {fileID: 606828496}
   - component: {fileID: 606828495}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Black Hole (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2089,7 +2066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minimalThreshold: 0.125
-  playerJumpPower: 250
+  playerJumpPower: 210
   maximumSpeed: 0.75
   currentSpeed: 0
   inputValue: {x: 0, y: 0}
@@ -2261,21 +2238,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 4879467208002911623, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: m_Icon
-      value: 
-      objectReference: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000,
-        type: 0}
     - target: {fileID: 4879467208002911617, guid: e377d011a1775ed4f9e21fe0f58c0991,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.06
       objectReference: {fileID: 0}
     - target: {fileID: 4879467208002911617, guid: e377d011a1775ed4f9e21fe0f58c0991,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 6
+      value: 0.47
       objectReference: {fileID: 0}
     - target: {fileID: 4879467208002911617, guid: e377d011a1775ed4f9e21fe0f58c0991,
         type: 3}
@@ -2322,57 +2293,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4879467208002911617, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879467208002911617, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.8
-      objectReference: {fileID: 0}
-    - target: {fileID: 4879467208002911617, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 16.7552
-      objectReference: {fileID: 0}
     - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
         type: 3}
-      propertyPath: moveSpeed
+      propertyPath: interactableArea.above
       value: 75
       objectReference: {fileID: 0}
     - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
         type: 3}
-      propertyPath: maxHorizontalSpeed
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: thresholdPosition
-      value: 0.15
-      objectReference: {fileID: 0}
-    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: backToPositionSpeed
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902088212, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
-      propertyPath: m_Mass
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902088212, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
-      propertyPath: m_GravityScale
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 1902088212, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
-      propertyPath: m_Constraints
-      value: 5
+      propertyPath: interactableArea.below
+      value: 62
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
@@ -3680,7 +3609,7 @@ GameObject:
   - component: {fileID: 1174006261}
   - component: {fileID: 1174006260}
   - component: {fileID: 1174006264}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Black Hole
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4064,7 +3993,7 @@ MonoBehaviour:
     type: 3}
   m_PrefabInstance: {fileID: 695756338}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 596461974}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dde52f889c2c6eb4db12aa6af3ba12a9, type: 3}
@@ -5438,7 +5367,7 @@ GameObject:
   - component: {fileID: 1723530317}
   - component: {fileID: 1723530316}
   - component: {fileID: 1723530315}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Black Hole (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -5663,6 +5592,7 @@ MonoBehaviour:
   mainCam: {fileID: 519420031}
   detectorPaddingPosition: {x: 0.975, y: 0.92}
   detectorObject: {fileID: 2046733854}
+  lerpDuration: 2
   aliens: []
 --- !u!4 &1779089163
 Transform:
