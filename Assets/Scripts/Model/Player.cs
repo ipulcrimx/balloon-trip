@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -74,7 +74,7 @@ public class Player : MonoBehaviour
 
         OnEnterBlackHole += delegate ()
         {
-            _rigidBody2d.gravityScale = 0.75f;
+            _rigidBody2d.gravityScale = 0.15f;
         };
 
         OnExitBlackHole += delegate ()

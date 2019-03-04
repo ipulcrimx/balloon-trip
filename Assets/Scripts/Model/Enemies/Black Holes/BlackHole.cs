@@ -31,7 +31,7 @@ public class BlackHole : MonoBehaviour
     {
         if (col.gameObject.tag == "Player")
         {
-            _currentPower += Time.deltaTime;
+            _currentPower += Time.deltaTime / 2;
             Transform tr = col.transform;
             Player pl = tr.GetComponent<Player>();
 
@@ -53,6 +53,7 @@ public class BlackHole : MonoBehaviour
                 tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * _currentPower / 30);
             }
 
+            Debug.DrawLine(tr.position, (Vector2)tr.position+ GetDirection(tr.position));
             tr.GetComponent<CustomGravity>().isDisturbed = true;
 
             if (Vector2.Distance(tr.position, transform.position) <= damageArea)
@@ -101,10 +102,10 @@ public class BlackHole : MonoBehaviour
     private Vector2 GetDirection(Vector2 startPos)
     {
         Vector2 dir = (Vector2)transform.position - startPos;
-        float length = dir.magnitude;
+        float length = dir.magnitude * 5f;
         dir = dir.normalized;
 
 
-        return dir * (length * 2.5f);
+        return dir * (length > 5f ? length : 5f);
     }
 }
