@@ -1916,9 +1916,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f0be2cd94ac5747b9ff9854c33a0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: -2
   damageArea: 0.75
-  suckPower: 1
+  suckPower: 2
   distanceLevels:
   - 5
   - 8
@@ -2292,16 +2292,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: interactableArea.above
-      value: 75
-      objectReference: {fileID: 0}
-    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
-        type: 3}
-      propertyPath: interactableArea.below
-      value: 62
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
@@ -3628,9 +3618,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f0be2cd94ac5747b9ff9854c33a0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: -2
   damageArea: 0.75
-  suckPower: 1
+  suckPower: 2
   distanceLevels:
   - 5
   - 8
@@ -5403,9 +5393,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3f0be2cd94ac5747b9ff9854c33a0c2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 1.5
+  moveSpeed: -2
   damageArea: 0.75
-  suckPower: 1
+  suckPower: 2
   distanceLevels:
   - 5
   - 8
