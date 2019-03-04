@@ -54,7 +54,7 @@ public class EnemyLocator : MonoBehaviour
             {
                 if (!detectorObject.gameObject.activeInHierarchy)
                 {
-                    detectorObject.gameObject.SetActive(false);
+                    detectorObject.gameObject.SetActive(true);
                 }
 
                 Vector2 distPos = (Vector2)_nearestAlien.position - _playerPos;
