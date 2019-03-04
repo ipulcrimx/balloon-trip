@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -180,12 +180,14 @@ public class Player : MonoBehaviour
     [ContextMenu("Player Hit")]
     private void PlayerHit()
     {
-        OnBallonDestroyed();
-
         if (TotalBalloon <= 0)
         {
             _isDead = true;
             GetComponent<Collider2D>().isTrigger = true;
+        }
+        else
+        {
+            OnBallonDestroyed();
         }
     }
 
