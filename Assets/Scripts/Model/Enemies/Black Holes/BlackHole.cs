@@ -64,13 +64,13 @@ public class BlackHole : MonoBehaviour
         {
             _currentPower += Time.deltaTime;
             Transform tr = col.transform;
-            tr.position = Vector3.Lerp(tr.position, transform.position, Time.deltaTime * suckPower);
+            tr.position = Vector3.Lerp(tr.position, transform.position, Time.deltaTime * _currentPower);
         }
         else if (col.gameObject.tag == "Asteroid")
         {
             _currentPower += Time.deltaTime;
             Transform tr = col.transform;
-            tr.position = Vector3.Lerp(tr.position, transform.position, (Time.deltaTime * 1.75f) * suckPower);
+            tr.position = Vector3.Lerp(tr.position, transform.position, (Time.deltaTime * 1.75f) * _currentPower);
 
             if (Vector2.Distance(tr.position, transform.position) <= damageArea * 2.25f)
             {
