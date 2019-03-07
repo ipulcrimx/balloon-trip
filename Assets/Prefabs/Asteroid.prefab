@@ -121,7 +121,7 @@ TrailRenderer:
   m_SortingLayerID: -1159992901
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Time: 0.15
+  m_Time: 0.35
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 0.33
@@ -246,6 +246,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAffected: 1
+  isDisturbed: 0
   gravityValue: {fileID: 11400000, guid: 193d415ef2b136849b65d8c25d1e784a, type: 2}
   planetTransform: {fileID: 6639394525044586866, guid: a130a108fcc877c46899bbee0699af75,
     type: 3}

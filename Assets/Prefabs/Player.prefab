@@ -253,10 +253,11 @@ GameObject:
   - component: {fileID: 1902088212}
   - component: {fileID: 1902088216}
   - component: {fileID: 7456479744715142658}
+  - component: {fileID: 596461979}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
-  m_Icon: {fileID: 0}
+  m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -269,7 +270,7 @@ Transform:
   m_GameObject: {fileID: 4879467208002911623}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.0328401, y: 2.2448604, z: 0}
-  m_LocalScale: {x: 0.6, y: 0.6, z: 1}
+  m_LocalScale: {x: 0.8, y: 0.8, z: 16.7552}
   m_Children:
   - {fileID: 4879467207534377912}
   - {fileID: 4879467207761885019}
@@ -336,15 +337,15 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 10
+  m_Mass: 5
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 0.85
+  m_GravityScale: 2
   m_Material: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Constraints: 5
 --- !u!61 &1902088216
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -383,13 +384,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dde52f889c2c6eb4db12aa6af3ba12a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 40
   jumpPower: 200
-  slowDownModifier: 1.75
-  invincibleDuration: 1
-  thresholdSpeed: {x: 2, y: 2}
-  pushDownForce: 4
-  maxHorizontalSpeed: 25
   balloons:
   - {fileID: 4879467207534377913}
   - {fileID: 4879467207761885016}
+  thresholdPosition: 0.15
+  backToPositionSpeed: 2
+  interactableArea:
+    below: 62
+    above: 78
+  heighThreshold: 1.53
+  decceleratePower: 3
+  _areaType: 0
+--- !u!114 &596461979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4879467208002911623}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93bad2fc53e17e49876dc8311524e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAffected: 0
+  isDisturbed: 0
+  gravityValue: {fileID: 11400000, guid: 631cba9346431a046a70d5759e1eaafe, type: 2}
+  planetTransform: {fileID: 6639394525044586866, guid: a130a108fcc877c46899bbee0699af75,
+    type: 3}

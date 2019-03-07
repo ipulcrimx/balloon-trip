@@ -28,9 +28,9 @@ public class Alien : MonoBehaviour
     public float minDuration;
     public float maxDuration;
     [SerializeField]
-    protected AreaType _areaType = AreaType.None;
+    internal AreaType _areaType = AreaType.None;
     [SerializeField]
-    protected AreaBoundary _boundary = new AreaBoundary();
+    internal AreaBoundary _boundary = new AreaBoundary();
 
     [Space]
     public PhysicsMaterial2D bounceMaterial;
@@ -250,13 +250,13 @@ public class Alien : MonoBehaviour
     }
 
     [System.Serializable]
-    protected class AreaBoundary
+    internal class AreaBoundary
     {
         public float below = 65f;
         public float above = 83f;
     }
 
-    protected enum AreaType
+    internal enum AreaType
     {
         None = -1,
         SafeArea = 0,
