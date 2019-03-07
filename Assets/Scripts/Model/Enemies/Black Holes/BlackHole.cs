@@ -42,15 +42,15 @@ public class BlackHole : MonoBehaviour
             }
             else if (pl.distanceFromInitialPosition < distanceLevels[1])
             {
-                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * _currentPower / 3);
+                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * _currentPower / 10);
             }
             else if (pl.distanceFromInitialPosition < distanceLevels[2])
             {
-                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * _currentPower / 5);
+                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * _currentPower / 25);
             }
             else
             {
-                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * _currentPower / 30);
+                tr.position = Vector3.Lerp(tr.position, (Vector2)tr.position + GetDirection(tr.position), Time.deltaTime * _currentPower / 80);
             }
 
             Debug.DrawLine(tr.position, (Vector2)tr.position+ GetDirection(tr.position));

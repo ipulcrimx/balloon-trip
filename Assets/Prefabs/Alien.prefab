@@ -278,7 +278,7 @@ MonoBehaviour:
   _areaType: -1
   _boundary:
     below: 69
-    above: 83
+    above: 86
   bounceMaterial: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
   defaultMaterial: {fileID: 6200000, guid: 94e137daba022224d82afb5b9ae33659, type: 2}
   distanceToCenter: 0
@@ -295,6 +295,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isAffected: 1
+  isDisturbed: 0
   gravityValue: {fileID: 11400000, guid: 631cba9346431a046a70d5759e1eaafe, type: 2}
   planetTransform: {fileID: 6639394525044586866, guid: a130a108fcc877c46899bbee0699af75,
     type: 3}
