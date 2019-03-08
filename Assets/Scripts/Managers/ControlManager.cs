@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +18,8 @@ public class ControlManager : MonoBehaviour
 
     public Player player;
     public Transform world;
+    [Space]
+    public Transform parallaxBackground;
 
 
     private Joystick _joystick;
@@ -110,11 +112,13 @@ public class ControlManager : MonoBehaviour
     {
         currentSpeed = Mathf.Lerp(currentSpeed, maximumSpeed * inputValue.x, Time.deltaTime);
         world.Rotate(new Vector3(0, 0, 1), currentSpeed);
+        parallaxBackground.Rotate(new Vector3(0, 0, 1), currentSpeed/7.5f);
     }
 
     private void SlowTheWorldDown()
     {
         currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime / slowDownSpeed);
         world.Rotate(new Vector3(0, 0, 1), currentSpeed);
+        parallaxBackground.Rotate(new Vector3(0, 0, 1), currentSpeed/7.5f);
     }
 }
