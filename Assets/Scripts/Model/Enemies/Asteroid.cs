@@ -66,7 +66,7 @@ public class Asteroid : MonoBehaviour
         float rndY = Mathf.Cos(randomAngle);
 
         Vector2 rnd = new Vector2(rndX, rndY > 0? -rndY:rndY) * randomForce;
-        Debug.Log(rnd);
+        //Debug.Log(rnd);
         _rigidBody2d.AddForce(rnd );
         OnStartShoot(transform);
     }
