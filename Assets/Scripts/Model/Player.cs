@@ -10,8 +10,6 @@ public class Player : MonoBehaviour
     [Space]
     public float thresholdPosition;
     public float backToPositionSpeed;
-    [SerializeField]
-    internal Alien.AreaBoundary interactableArea;
 
     private bool _isDead = false;
     private Vector2 _initialPosition;
@@ -21,9 +19,6 @@ public class Player : MonoBehaviour
     [Range(0, 5)]
     public float heighThreshold = 2;
     public float decceleratePower = 3;
-
-    [SerializeField]
-    private Alien.AreaType _areaType;
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnPlayerHit = delegate { };
@@ -36,11 +31,6 @@ public class Player : MonoBehaviour
         {
             return ((Vector2)transform.position - _initialPosition).magnitude;
         }
-    }
-
-    internal Alien.AreaType areaType
-    {
-        get { return _areaType; }
     }
 
     public int TotalBalloon
@@ -100,13 +90,6 @@ public class Player : MonoBehaviour
                 (_initialPosition.x, transform.position.y),
                 Time.deltaTime / backToPositionSpeed);
         }
-
-        if(_custGravity.distanceFromCenter + heighThreshold >= interactableArea.above)
-        {
-            _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime * decceleratePower);
-        }
-
-        UpdateArea();
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -157,23 +140,6 @@ public class Player : MonoBehaviour
         else
         {
             PlayerHit();
-        }
-    }
-
-    protected void UpdateArea()
-    {
-        float dist =  _custGravity.distanceFromCenter;
-        if (dist <= interactableArea.below)
-        {
-            _areaType = Alien.AreaType.Bellow;
-        }
-        else if (dist >= interactableArea.above)
-        {
-            _areaType = Alien.AreaType.Above;
-        }
-        else
-        {
-            _areaType = Alien.AreaType.SafeArea;
         }
     }
 

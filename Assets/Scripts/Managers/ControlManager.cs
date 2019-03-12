@@ -90,7 +90,7 @@ public class ControlManager : MonoBehaviour
             RotateTheWorld();
         }
 
-        if(player.areaType != Alien.AreaType.Above && isJump)
+        if(isJump)
         {
             isJump = false;
             PlayerJump();
