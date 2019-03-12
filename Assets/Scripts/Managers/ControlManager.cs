@@ -85,15 +85,18 @@ public class ControlManager : MonoBehaviour
         inputValue = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), 0);
         bool isJump = CrossPlatformInputManager.GetButton("Jump");
 
-        if(inputValue.sqrMagnitude >= minimalThreshold)
+        if (inputValue.sqrMagnitude >= minimalThreshold)
         {
             RotateTheWorld();
         }
 
-        if(isJump)
+        if (player && player.TotalBalloon > 0)
         {
-            isJump = false;
-            PlayerJump();
+            if (player.areaType != Alien.AreaType.Above && isJump)
+            {
+                isJump = false;
+                PlayerJump();
+            }
         }
 
         if(!_isInput)

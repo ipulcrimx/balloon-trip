@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
@@ -10,6 +10,9 @@ public class Player : MonoBehaviour
     [Space]
     public float thresholdPosition;
     public float backToPositionSpeed;
+    [SerializeField]
+    internal Alien.AreaBoundary interactableArea;
+    [Space]
     public float outOfScreenThreshold;
     public GameObject warningPopUp;
 
@@ -25,6 +28,9 @@ public class Player : MonoBehaviour
 
     private float _outOfScreenTimer = 0;
 
+    [SerializeField]
+    private Alien.AreaType _areaType;
+
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnPlayerHit = delegate { };
     public UnityAction OnEnterBlackHole = delegate { };
@@ -36,6 +42,11 @@ public class Player : MonoBehaviour
         {
             return ((Vector2)transform.position - _initialPosition).magnitude;
         }
+    }
+
+    internal Alien.AreaType areaType
+    {
+        get { return _areaType; }
     }
 
     public int TotalBalloon
@@ -109,6 +120,8 @@ public class Player : MonoBehaviour
 
             if(_outOfScreenTimer >= outOfScreenThreshold)
             {
+                _outOfScreenTimer = 0;
+
                 OnBallonDestroyed();
             }
         }
@@ -121,6 +134,19 @@ public class Player : MonoBehaviour
                 warningPopUp.SetActive(false);
             }
         }
+
+        if(_custGravity.distanceFromCenter <= 50)
+        {
+            Destroy(gameObject);
+        }
+
+        if (_custGravity.distanceFromCenter + heighThreshold >= interactableArea.above)
+        {
+            _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime * decceleratePower);
+        }
+
+        UpdateArea();
+
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -185,6 +211,23 @@ public class Player : MonoBehaviour
         else
         {
             OnBallonDestroyed();
+        }
+    }
+
+    protected void UpdateArea()
+    {
+        float dist = _custGravity.distanceFromCenter;
+        if (dist <= interactableArea.below)
+        {
+            _areaType = Alien.AreaType.Bellow;
+        }
+        else if (dist >= interactableArea.above)
+        {
+            _areaType = Alien.AreaType.Above;
+        }
+        else
+        {
+            _areaType = Alien.AreaType.SafeArea;
         }
     }
 
