@@ -4048,6 +4048,16 @@ PrefabInstance:
       propertyPath: interactableArea.above
       value: 83
       objectReference: {fileID: 0}
+    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
+        type: 3}
+      propertyPath: warningPopUp
+      value: 
+      objectReference: {fileID: 1329222987}
+    - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
+        type: 3}
+      propertyPath: outOfScreenThreshold
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 1902088212, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
       propertyPath: m_GravityScale
       value: 2
@@ -7340,13 +7350,14 @@ GameObject:
   - component: {fileID: 1329222989}
   - component: {fileID: 1329222992}
   - component: {fileID: 1329222991}
+  - component: {fileID: 1329222993}
   m_Layer: 5
   m_Name: Warning Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1329222988
 RectTransform:
   m_ObjectHideFlags: 0
@@ -7436,6 +7447,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1329222993
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1329222987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc7987570d51c2a4aa48f19b2befc6ef, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 0}
 --- !u!1 &1337956375
 GameObject:
   m_ObjectHideFlags: 0

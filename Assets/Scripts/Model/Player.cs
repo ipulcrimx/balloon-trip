@@ -10,8 +10,11 @@ public class Player : MonoBehaviour
     [Space]
     public float thresholdPosition;
     public float backToPositionSpeed;
+    public float outOfScreenThreshold;
+    public GameObject warningPopUp;
 
     private bool _isDead = false;
+    private bool _isOutOfScreen = false;
     private Vector2 _initialPosition;
     private Rigidbody2D _rigidBody2d;
     private CustomGravity _custGravity;
@@ -19,6 +22,8 @@ public class Player : MonoBehaviour
     [Range(0, 5)]
     public float heighThreshold = 2;
     public float decceleratePower = 3;
+
+    private float _outOfScreenTimer = 0;
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnPlayerHit = delegate { };
@@ -84,11 +89,37 @@ public class Player : MonoBehaviour
 
         if (!_custGravity.isDisturbed && Mathf.Abs(transform.position.x - _initialPosition.x) > thresholdPosition)
         {
-                transform.position = Vector2.Lerp(
-                transform.position,
-                new Vector2
-                (_initialPosition.x, transform.position.y),
-                Time.deltaTime / backToPositionSpeed);
+                transform.position = Vector2.Lerp
+                (
+                    transform.position,
+                    new Vector2 (_initialPosition.x, transform.position.y),
+                    Time.deltaTime / backToPositionSpeed
+                );
+        }
+
+        if(_isOutOfScreen)
+        {
+            _outOfScreenTimer += Time.deltaTime;
+            _rigidBody2d.gravityScale = 3.5f;
+
+            if(!warningPopUp.activeInHierarchy)
+            {
+                warningPopUp.SetActive(true);
+            }
+
+            if(_outOfScreenTimer >= outOfScreenThreshold)
+            {
+                OnBallonDestroyed();
+            }
+        }
+        else
+        {
+            _outOfScreenTimer = 0;
+            _rigidBody2d.gravityScale = 1.7f;
+            if (warningPopUp.activeInHierarchy)
+            {
+                warningPopUp.SetActive(false);
+            }
         }
     }
 
@@ -159,6 +190,11 @@ public class Player : MonoBehaviour
 
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        _isOutOfScreen = true;
+    }
+
+    private void OnBecameVisible()
+    {
+        _isOutOfScreen = false;
     }
 }
