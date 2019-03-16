@@ -2872,6 +2872,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pausePopUp: {fileID: 173406992}
   postGamePopUp: {fileID: 994944981}
+  warningCountdown: {fileID: 643062299}
 --- !u!4 &506803555
 Transform:
   m_ObjectHideFlags: 0
@@ -3848,6 +3849,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 643062298}
+  - component: {fileID: 643062299}
+  - component: {fileID: 643062300}
   m_Layer: 5
   m_Name: Countdown Panel
   m_TagString: Untagged
@@ -3875,6 +3878,32 @@ RectTransform:
   m_AnchoredPosition: {x: 61, y: -32.8}
   m_SizeDelta: {x: -504.2, y: 65.7}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &643062299
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643062297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb1ae6e73a93ce04090f2304b07ed83f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  suffixText: ' seconds more, you ballon will popped'
+  countDownText: {fileID: 166555900}
+--- !u!225 &643062300
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 643062297}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &654869602
 GameObject:
   m_ObjectHideFlags: 0
@@ -4187,7 +4216,7 @@ PrefabInstance:
     - target: {fileID: 7456479744715142658, guid: e377d011a1775ed4f9e21fe0f58c0991,
         type: 3}
       propertyPath: outOfScreenThreshold
-      value: 2.5
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1902088212, guid: e377d011a1775ed4f9e21fe0f58c0991, type: 3}
       propertyPath: m_GravityScale
