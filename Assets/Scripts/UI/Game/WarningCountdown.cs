@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+[RequireComponent(typeof(CanvasGroup))]
 public class WarningCountdown : MonoBehaviour
 {
     public string suffixText = " seconds more, you ballon will popped";
@@ -10,10 +11,39 @@ public class WarningCountdown : MonoBehaviour
 
     private bool _isOpen = false;
 
+    private Player _player;
+    private CanvasGroup _canvasGroup;
+
     public void Init()
     {
         _isOpen = false;
-        gameObject.SetActive(false);
+
+        _canvasGroup = GetComponent<CanvasGroup>();
+        _player = GameManager.instance.player;
+
+        _canvasGroup.alpha = 0;
+        _canvasGroup.interactable = false;
+    }
+
+    private void Update()
+    {
+        if (_player && _player.TotalBalloon <= 0)
+        {
+            _isOpen = false;
+            ToggleWarning(false);
+        }
+        else
+        {
+            if (_isOpen != _player.isOutOfScreen)
+            {
+                ToggleWarning(_player.isOutOfScreen);
+            }
+        }
+
+        if(_isOpen)
+        {
+            SetCountdown(_player.outOfScreenTimer);
+        }
     }
 
 
@@ -27,9 +57,11 @@ public class WarningCountdown : MonoBehaviour
         countDownText.text = sec + suffixText;
     }
 
-    public void ToggleWarning()
+    public void ToggleWarning(bool isActive)
     {
-        _isOpen = !_isOpen;
-        gameObject.SetActive(_isOpen);
+        _isOpen = isActive;
+
+        _canvasGroup.alpha = _isOpen ? 1 : 0;
+        _canvasGroup.interactable = _isOpen;
     }
 }

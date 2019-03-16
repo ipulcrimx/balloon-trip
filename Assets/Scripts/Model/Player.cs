@@ -36,6 +36,16 @@ public class Player : MonoBehaviour
     public UnityAction OnEnterBlackHole = delegate { };
     public UnityAction OnExitBlackHole = delegate { };
 
+    public bool isOutOfScreen { get { return _isOutOfScreen; } }
+
+    public float outOfScreenTimer
+    {
+        get
+        {
+            return outOfScreenThreshold - _outOfScreenTimer;
+        }
+    }
+
     public float distanceFromInitialPosition
     {
         get
