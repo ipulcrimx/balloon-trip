@@ -6,6 +6,7 @@ public class GameUIManager : MonoBehaviour
 {
     public PausePopUpManager pausePopUp;
     public PostGamePopUpManager postGamePopUp;
+    public WarningCountdown warningCountdown;
 
     // Start is called before the first frame update
     void Start()
@@ -13,6 +14,7 @@ public class GameUIManager : MonoBehaviour
         // Lazy init...
         pausePopUp.Init();
         postGamePopUp.Init();
+        warningCountdown.Init();
 
         GameManager.instance.OnGameOver += OnGameOver;
     }

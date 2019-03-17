@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,6 +18,8 @@ public class ControlManager : MonoBehaviour
 
     public Player player;
     public Transform world;
+    [Space]
+    public Transform parallaxBackground;
 
 
     private Joystick _joystick;
@@ -83,15 +85,18 @@ public class ControlManager : MonoBehaviour
         inputValue = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), 0);
         bool isJump = CrossPlatformInputManager.GetButton("Jump");
 
-        if(inputValue.sqrMagnitude >= minimalThreshold)
+        if (inputValue.sqrMagnitude >= minimalThreshold)
         {
             RotateTheWorld();
         }
 
-        if(player.areaType != Alien.AreaType.Above && isJump)
+        if (player && player.TotalBalloon > 0)
         {
-            isJump = false;
-            PlayerJump();
+            if (player.areaType != Alien.AreaType.Above && isJump)
+            {
+                isJump = false;
+                PlayerJump();
+            }
         }
 
         if(!_isInput)
@@ -110,11 +115,13 @@ public class ControlManager : MonoBehaviour
     {
         currentSpeed = Mathf.Lerp(currentSpeed, maximumSpeed * inputValue.x, Time.deltaTime);
         world.Rotate(new Vector3(0, 0, 1), currentSpeed);
+        parallaxBackground.Rotate(new Vector3(0, 0, 1), currentSpeed/7.5f);
     }
 
     private void SlowTheWorldDown()
     {
         currentSpeed = Mathf.Lerp(currentSpeed, 0, Time.deltaTime / slowDownSpeed);
         world.Rotate(new Vector3(0, 0, 1), currentSpeed);
+        parallaxBackground.Rotate(new Vector3(0, 0, 1), currentSpeed/7.5f);
     }
 }

@@ -12,8 +12,12 @@ public class Player : MonoBehaviour
     public float backToPositionSpeed;
     [SerializeField]
     internal Alien.AreaBoundary interactableArea;
+    [Space]
+    public float outOfScreenThreshold;
+    public GameObject warningPopUp;
 
     private bool _isDead = false;
+    private bool _isOutOfScreen = false;
     private Vector2 _initialPosition;
     private Rigidbody2D _rigidBody2d;
     private CustomGravity _custGravity;
@@ -22,6 +26,8 @@ public class Player : MonoBehaviour
     public float heighThreshold = 2;
     public float decceleratePower = 3;
 
+    private float _outOfScreenTimer = 0;
+
     [SerializeField]
     private Alien.AreaType _areaType;
 
@@ -29,6 +35,16 @@ public class Player : MonoBehaviour
     public UnityAction OnPlayerHit = delegate { };
     public UnityAction OnEnterBlackHole = delegate { };
     public UnityAction OnExitBlackHole = delegate { };
+
+    public bool isOutOfScreen { get { return _isOutOfScreen; } }
+
+    public float outOfScreenTimer
+    {
+        get
+        {
+            return outOfScreenThreshold - _outOfScreenTimer;
+        }
+    }
 
     public float distanceFromInitialPosition
     {
@@ -94,19 +110,53 @@ public class Player : MonoBehaviour
 
         if (!_custGravity.isDisturbed && Mathf.Abs(transform.position.x - _initialPosition.x) > thresholdPosition)
         {
-                transform.position = Vector2.Lerp(
-                transform.position,
-                new Vector2
-                (_initialPosition.x, transform.position.y),
-                Time.deltaTime / backToPositionSpeed);
+                transform.position = Vector2.Lerp
+                (
+                    transform.position,
+                    new Vector2 (_initialPosition.x, transform.position.y),
+                    Time.deltaTime / backToPositionSpeed
+                );
         }
 
-        if(_custGravity.distanceFromCenter + heighThreshold >= interactableArea.above)
+        if(_isOutOfScreen)
+        {
+            _outOfScreenTimer += Time.deltaTime;
+            _rigidBody2d.gravityScale = 3.5f;
+
+            if(!warningPopUp.activeInHierarchy)
+            {
+                warningPopUp.SetActive(true);
+            }
+
+            if(_outOfScreenTimer >= outOfScreenThreshold)
+            {
+                _outOfScreenTimer = 0;
+
+                OnBallonDestroyed();
+            }
+        }
+        else
+        {
+            _outOfScreenTimer = 0;
+            _rigidBody2d.gravityScale = 1.7f;
+            if (warningPopUp.activeInHierarchy)
+            {
+                warningPopUp.SetActive(false);
+            }
+        }
+
+        if(_custGravity.distanceFromCenter <= 50)
+        {
+            Destroy(gameObject);
+        }
+
+        if (_custGravity.distanceFromCenter + heighThreshold >= interactableArea.above)
         {
             _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime * decceleratePower);
         }
 
         UpdateArea();
+
     }
 
     private void OnCollisionEnter2D(Collision2D col)
@@ -160,9 +210,26 @@ public class Player : MonoBehaviour
         }
     }
 
+    [ContextMenu("Player Hit")]
+    private void PlayerHit()
+    {
+        //if (_isOutOfScreen)
+        //    return;
+
+        if (TotalBalloon <= 0)
+        {
+            _isDead = true;
+            GetComponent<Collider2D>().isTrigger = true;
+        }
+        else
+        {
+            OnBallonDestroyed();
+        }
+    }
+
     protected void UpdateArea()
     {
-        float dist =  _custGravity.distanceFromCenter;
+        float dist = _custGravity.distanceFromCenter;
         if (dist <= interactableArea.below)
         {
             _areaType = Alien.AreaType.Bellow;
@@ -177,22 +244,13 @@ public class Player : MonoBehaviour
         }
     }
 
-    [ContextMenu("Player Hit")]
-    private void PlayerHit()
-    {
-        if (TotalBalloon <= 0)
-        {
-            _isDead = true;
-            GetComponent<Collider2D>().isTrigger = true;
-        }
-        else
-        {
-            OnBallonDestroyed();
-        }
-    }
-
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        _isOutOfScreen = true;
+    }
+
+    private void OnBecameVisible()
+    {
+        _isOutOfScreen = false;
     }
 }
