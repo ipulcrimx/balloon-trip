@@ -57,6 +57,6 @@ public class Level
     public float moveSpeed;
 
     [Header("Background")]
-    [Tooltip("directory of background\n(if want to set background per level, let it empty if do not)")]
+    [Tooltip("Resources directory of background\n(if want to set background per level, let it empty if do not)")]
     public GameObject parallaxBackground;
 }

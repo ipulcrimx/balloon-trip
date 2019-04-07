@@ -30,8 +30,8 @@ public class EnemyLocator : MonoBehaviour
         _gameManager = GameManager.instance;
 
         _playerPos = _gameManager.player.transform.position;
-        aliens = new Transform[_gameManager.enemies.Length];
-        for (int i = 0; i < _gameManager.enemies.Length; i++)
+        aliens = new Transform[_gameManager.enemies.Count];
+        for (int i = 0; i < _gameManager.enemies.Count; i++)
         {
             aliens[i] = _gameManager.enemies[i].transform;
         }
