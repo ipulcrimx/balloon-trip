@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public Player player;
-    public Alien[] enemies;
+    public List<Alien> enemies;
 
     private GamePhase _phase;
     private AnalyticsManager _analytics = null;
@@ -74,6 +75,8 @@ public class GameManager : MonoBehaviour
             en.OnBallonDestroyed += OnEnemyBalloonPoppedUp;
             en.OnDead += OnEnemyKilled;
         }
+
+        EnemyPooler.instance.InitEnemy(10, 10, 12);
     }
 
     // Update is called once per frame
@@ -147,14 +150,14 @@ public class GameManager : MonoBehaviour
     {
         //if(_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
 
-        enemies = new Alien[0];
+        enemies = new List<Alien>();
     }
 
     private void OnApplicationQuit()
     {
         //if (_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
 
-        enemies = new Alien[0];
+        enemies = new List<Alien>();
     }
 
     internal enum GamePhase
