@@ -1,14 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LevelManager : MonoBehaviour
 {
+    [Tooltip("Get json data from link")]
     public string jsonLink = "";
+    [Tooltip("If json link is empty, will search json from this directory")]
+    public string jsonDirectory = "";
 
     [Space]
     public ControlManager controlManager;
     public AsteroidManager asteroidManager;
+    public EnemyPooler enemyPooler;
+
+    public UnityAction OnLevelInit = delegate { };
+
+    private string _json;
+    private int _levelIndex;
+    private LevelArray _levels;
+
+    private Level _currentLevel
+    {
+        get
+        {
+            return _levels.level[_levelIndex];
+        }
+    }
 
     #region Instances
     private static LevelManager _instance = null;
@@ -26,17 +45,53 @@ public class LevelManager : MonoBehaviour
     }
     #endregion
 
+    private void Awake()
+    {
+        _instance = this;
+        OnLevelInit += OnInitLevel;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
-        if(!string.IsNullOrEmpty(jsonLink))
+        if (!string.IsNullOrEmpty(jsonLink))
         {
 
+        }
+        else if (!string.IsNullOrEmpty(jsonDirectory))
+        {
+            TextAsset txt = Resources.Load(jsonDirectory) as TextAsset;
+            _json = txt.text;
         }
         else
         {
-
+            Debug.LogError("JSON link and JSON directory is empty! Please fill it so the game can obtain level info");
+            return;
         }
+
+        // need confirmation...!
+        _levels = JsonUtility.FromJson(_json, typeof(LevelArray)) as LevelArray;
+    }
+
+    public void SetLevel(int lvl)
+    {
+        _levelIndex = lvl;
+    }
+
+    public void OnInitLevel()
+    {
+        enemyPooler = EnemyPooler.instance;
+        controlManager = ControlManager.instance;
+        asteroidManager = AsteroidManager.instance;
+
+        enemyPooler.InitEnemy(_currentLevel.totalEnemy, _currentLevel.minEnemySpeed, _currentLevel.maxEnemySpeed);
+        controlManager.InitControlLevel(_currentLevel.moveSpeed, _currentLevel.jumpPower);
+        asteroidManager.InitLevelAsteroid(_currentLevel.minAsteroidInterval, _currentLevel.maxAsteroidInterval, _currentLevel.minScale, _currentLevel.maxScale);
+    }
+
+    public class LevelArray
+    {
+        public Level[] level;
     }
 }
 
@@ -51,6 +106,8 @@ public class Level
     [Header("Asteroids")]
     public float minAsteroidInterval;
     public float maxAsteroidInterval;
+    public float minScale;
+    public float maxScale;
 
     [Header("Control")]
     public float jumpPower;

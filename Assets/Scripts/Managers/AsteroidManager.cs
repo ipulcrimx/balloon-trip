@@ -22,6 +22,15 @@ public class AsteroidManager : MonoBehaviour
 
     private int _positionIndex;
     private float _intervalTimer;
+    internal static AsteroidManager instance;
+
+    public void InitLevelAsteroid(float minInterval, float maxInterval, float minScale, float maxScale)
+    {
+        this.minInterval = minInterval;
+        this.maxInterval = maxInterval;
+        this.minScale = minScale;
+        this.maxScale = maxScale;
+    }
 
     // Update is called once per frame
     void Update()
