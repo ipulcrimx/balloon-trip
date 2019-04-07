@@ -41,3 +41,5 @@ sysinfo.txt
 \.gradle/buildOutputCleanup/cache\.properties
 
 *.apk
+
+*.unitypackage
