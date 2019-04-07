@@ -80,6 +80,12 @@ public class ControlManager : MonoBehaviour
         }
     }
 
+    public void InitControlLevel(float speed, float jump)
+    {
+        playerJumpPower = jump;
+        maximumSpeed = speed;
+    }
+
     private void FixedUpdate()
     {
         inputValue = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), 0);
