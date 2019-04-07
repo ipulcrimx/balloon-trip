@@ -75,8 +75,6 @@ public class GameManager : MonoBehaviour
             en.OnBallonDestroyed += OnEnemyBalloonPoppedUp;
             en.OnDead += OnEnemyKilled;
         }
-
-        EnemyPooler.instance.InitEnemy(10, 10, 12);
     }
 
     // Update is called once per frame
