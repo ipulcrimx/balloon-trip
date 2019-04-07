@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
 {
@@ -16,6 +17,7 @@ public class LevelManager : MonoBehaviour
     public EnemyPooler enemyPooler;
 
     public UnityAction OnLevelInit = delegate { };
+    public UnityAction OnGoToNextLevel = delegate { };
 
     private string _json;
     private int _levelIndex;
@@ -48,7 +50,11 @@ public class LevelManager : MonoBehaviour
     private void Awake()
     {
         _instance = this;
+
+        DontDestroyOnLoad(gameObject);
+
         OnLevelInit += OnInitLevel;
+        OnGoToNextLevel += GoToNextLevel;
     }
 
     // Start is called before the first frame update
@@ -76,6 +82,14 @@ public class LevelManager : MonoBehaviour
     public void SetLevel(int lvl)
     {
         _levelIndex = lvl;
+    }
+
+    private void GoToNextLevel()
+    {
+        _levelIndex++;
+
+        SceneManager.LoadScene("Game");
+        OnInitLevel();
     }
 
     public void OnInitLevel()
