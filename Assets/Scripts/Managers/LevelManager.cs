@@ -1,7 +1,7 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.Networking;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : MonoBehaviour
@@ -21,6 +21,9 @@ public class LevelManager : MonoBehaviour
 
     private string _json;
     private int _levelIndex;
+
+    [Space]
+    [SerializeField]
     private LevelArray _levels;
 
     private Level _currentLevel
@@ -68,14 +71,31 @@ public class LevelManager : MonoBehaviour
         {
             TextAsset txt = Resources.Load(jsonDirectory) as TextAsset;
             _json = txt.text;
+
+            _levels = JsonUtility.FromJson(_json, typeof(LevelArray)) as LevelArray;
         }
         else
         {
             Debug.LogError("JSON link and JSON directory is empty! Please fill it so the game can obtain level info");
             return;
         }
+    }
 
-        // need confirmation...!
+    private IEnumerator GetJsonFromUrl()
+    {
+        UnityWebRequest www = UnityWebRequest.Get(jsonLink);
+        yield return www.SendWebRequest();
+
+        if(www.isNetworkError || www.isHttpError)
+        {
+            Debug.Log(www.error);
+        }
+        else
+        {
+            Debug.Log(www.downloadHandler.text);
+            _json = www.downloadHandler.text;
+        }
+
         _levels = JsonUtility.FromJson(_json, typeof(LevelArray)) as LevelArray;
     }
 
@@ -103,8 +123,10 @@ public class LevelManager : MonoBehaviour
         asteroidManager.InitLevelAsteroid(_currentLevel.minAsteroidInterval, _currentLevel.maxAsteroidInterval, _currentLevel.minScale, _currentLevel.maxScale);
     }
 
+    [System.Serializable]
     public class LevelArray
     {
+        [SerializeField]
         public Level[] level;
     }
 }
@@ -112,6 +134,7 @@ public class LevelManager : MonoBehaviour
 [System.Serializable]
 public class Level
 {
+    public string levelName;
     [Header("Enemy")]
     public int totalEnemy;
     public float minEnemySpeed;
@@ -129,5 +152,5 @@ public class Level
 
     [Header("Background")]
     [Tooltip("Resources directory of background\n(if want to set background per level, let it empty if do not)")]
-    public GameObject parallaxBackground;
+    public string parallaxBackground;
 }
