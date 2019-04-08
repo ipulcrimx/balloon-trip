@@ -1,0 +1,56 @@
+{
+    "level": [
+        {
+            "levelName": "First Flight",
+            "totalEnemy": 5,
+            "minEnemySpeed": 8,
+            "maxEnemySpeed": 12,
+            "minAsteroidInterval": 1,
+            "maxAsteroidInterval": 3,
+            "minScale": 0.015,
+            "maxScale": 0.25,
+            "jumpPower": 210,
+            "moveSpeed": 0.5,
+            "parallaxBackground": ""
+        },
+        {
+            "levelName": "To the Second!",
+            "totalEnemy": 5,
+            "minEnemySpeed": 8,
+            "maxEnemySpeed": 12,
+            "minAsteroidInterval": 1,
+            "maxAsteroidInterval": 3,
+            "minScale": 0.015,
+            "maxScale": 0.25,
+            "jumpPower": 210,
+            "moveSpeed": 0.5,
+            "parallaxBackground": ""
+        },
+        {
+            "levelName": "Third adventure",
+            "totalEnemy": 5,
+            "minEnemySpeed": 12,
+            "maxEnemySpeed": 21,
+            "minAsteroidInterval": 0.75,
+            "maxAsteroidInterval": 2,
+            "minScale": 0.015,
+            "maxScale": 0.35,
+            "jumpPower": 210,
+            "moveSpeed": 0.5,
+            "parallaxBackground": ""
+        },
+        {
+            "levelName": "Go on!",
+            "totalEnemy": 10,
+            "minEnemySpeed": 14,
+            "maxEnemySpeed": 25,
+            "minAsteroidInterval": 0.35,
+            "maxAsteroidInterval": 1.5,
+            "minScale": 0.01,
+            "maxScale": 0.5,
+            "jumpPower": 250,
+            "moveSpeed": 0.75,
+            "parallaxBackground": ""
+        }
+    ]
+}
