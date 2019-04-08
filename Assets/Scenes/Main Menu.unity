@@ -1812,7 +1812,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.689}
   m_AnchorMax: {x: 1, y: 0.93732816}
-  m_AnchoredPosition: {x: 0, y: -0.000030517578}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -95, y: 0.000030518}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &686455560
@@ -5063,6 +5063,56 @@ RectTransform:
   m_AnchoredPosition: {x: 0.5, y: 1}
   m_SizeDelta: {x: -2.199997, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &2084446979
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2084446981}
+  - component: {fileID: 2084446980}
+  m_Layer: 0
+  m_Name: Level Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2084446980
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084446979}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23be6394c6de3af409ce19af9f32f05e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jsonLink: 
+  jsonDirectory: json/level_data
+  controlManager: {fileID: 0}
+  asteroidManager: {fileID: 0}
+  enemyPooler: {fileID: 0}
+  _levels:
+    level: []
+--- !u!4 &2084446981
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084446979}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2085874644
 GameObject:
   m_ObjectHideFlags: 0

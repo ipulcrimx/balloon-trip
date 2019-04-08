@@ -1,10 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
     public Player player;
-    public Enemy[] enemies;
+    public List<Alien> enemies;
 
     private GamePhase _phase;
     private AnalyticsManager _analytics = null;
@@ -69,10 +70,10 @@ public class GameManager : MonoBehaviour
         //OnGameOver += OnGameIsOver;
         OnGameClear += OnLevelIsClear;
 
-        foreach(Enemy en in enemies)
+        foreach(Alien en in enemies)
         {
             en.OnBallonDestroyed += OnEnemyBalloonPoppedUp;
-            en.OnEnemyKilled += OnEnemyKilled;
+            en.OnDead += OnEnemyKilled;
         }
     }
 
@@ -107,7 +108,7 @@ public class GameManager : MonoBehaviour
     private int GetActiveEnemyCount()
     {
         int temp = 0;
-        foreach(Enemy e in enemies)
+        foreach(Alien e in enemies)
         {
             if(e.gameObject.activeInHierarchy)
             {
@@ -147,14 +148,14 @@ public class GameManager : MonoBehaviour
     {
         //if(_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
 
-        enemies = new Enemy[0];
+        enemies = new List<Alien>();
     }
 
     private void OnApplicationQuit()
     {
         //if (_analytics) _analytics.DonePlaying(PlayerManager.instance.coin, kill);
 
-        enemies = new Enemy[0];
+        enemies = new List<Alien>();
     }
 
     internal enum GamePhase

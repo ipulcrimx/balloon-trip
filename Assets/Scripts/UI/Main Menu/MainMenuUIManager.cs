@@ -38,6 +38,9 @@ public class MainMenuUIManager : MonoBehaviour
     {
         _soundManager.PlaySFX();
         AnalyticsManager.instance.StartPlaying(0);
+
+        LevelManager.instance.SetLevel(0);
+        LevelManager.instance.OnLevelInit();
         SceneManager.LoadScene("Game");
     }
 

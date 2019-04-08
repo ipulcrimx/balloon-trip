@@ -1,11 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class GameUIManager : MonoBehaviour
 {
     public PausePopUpManager pausePopUp;
     public PostGamePopUpManager postGamePopUp;
+    public LevelClearPopUpManager levelClear;
+    public WarningCountdown warningCountdown;
 
     // Start is called before the first frame update
     void Start()
@@ -13,8 +13,10 @@ public class GameUIManager : MonoBehaviour
         // Lazy init...
         pausePopUp.Init();
         postGamePopUp.Init();
+        warningCountdown.Init();
 
         GameManager.instance.OnGameOver += OnGameOver;
+        GameManager.instance.OnGameClear += OnGameClear;
     }
 
     private void OnGameOver()
@@ -23,6 +25,14 @@ public class GameUIManager : MonoBehaviour
         {
             postGamePopUp.TogglePopUp();
             // Play game over sound...
+        }
+    }
+
+    private void OnGameClear()
+    {
+        if(!levelClear.gameObject.activeInHierarchy)
+        {
+            levelClear.TogglePopUp();
         }
     }
 }

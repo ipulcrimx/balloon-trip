@@ -4,7 +4,7 @@ using UnityEngine.Events;
 
 public class EnemyBalloon : MonoBehaviour
 {
-    public Enemy enemyParent;
+    public Alien enemyParent;
 
     public UnityAction OnBalloonDestroyed = delegate { };
 

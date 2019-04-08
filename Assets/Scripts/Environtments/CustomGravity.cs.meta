@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: e93bad2fc53e17e49876dc8311524e35
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - gravityValue: {fileID: 11400000, guid: 631cba9346431a046a70d5759e1eaafe, type: 2}
+  - planetTransform: {fileID: 6639394525044586866, guid: a130a108fcc877c46899bbee0699af75,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

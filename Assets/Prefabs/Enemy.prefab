@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6366695547818941949}
   - component: {fileID: 3958690215967627571}
   - component: {fileID: 6366695547818941952}
-  m_Layer: 8
+  m_Layer: 9
   m_Name: Balloon 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d8378dbfdf1fad24797dac5795878c77, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyParent: {fileID: 3183557399415006843}
+  enemyParent: {fileID: 0}
 --- !u!1 &6366695547997392324
 GameObject:
   m_ObjectHideFlags: 0
@@ -130,10 +130,11 @@ GameObject:
   m_Component:
   - component: {fileID: 6366695547997392322}
   - component: {fileID: 6366695547997392323}
-  - component: {fileID: 3183557399415006843}
-  - component: {fileID: 5753220729251116436}
   - component: {fileID: 1295685083743238937}
-  m_Layer: 8
+  - component: {fileID: 5753220729251116436}
+  - component: {fileID: 3183557399415006843}
+  - component: {fileID: 9211031001146567063}
+  m_Layer: 9
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -203,29 +204,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &3183557399415006843
-MonoBehaviour:
+--- !u!50 &1295685083743238937
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6366695547997392324}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ae62c7e8fa3e5084ea8604ac2711fff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  balloon: {fileID: 6366695547818941951}
-  moveSpeed: 10
-  moveDirection: {x: 0, y: 6}
-  invincibleDuration: 0.75
-  inflatingDelay: 3
-  inflatingBalloonDuration: 7
-  duration: 1
-  minDurationChange: 1.5
-  maxDurationChange: 3.85
-  bounceMaterial: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
-  defaultMaterial: {fileID: 6200000, guid: 94e137daba022224d82afb5b9ae33659, type: 2}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 8
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!61 &5753220729251116436
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -252,24 +251,42 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.5, y: 2.5}
   m_EdgeRadius: 0
---- !u!50 &1295685083743238937
-Rigidbody2D:
-  serializedVersion: 4
+--- !u!114 &3183557399415006843
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6366695547997392324}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 8
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 0
-  m_Material: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 4
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae62c7e8fa3e5084ea8604ac2711fff7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  balloon: {fileID: 6366695547818941951}
+  moveSpeed: 10
+  moveDirection: {x: 0, y: 6}
+  invincibleDuration: 0.75
+  inflatingDelay: 3
+  inflatingBalloonDuration: 7
+  duration: 1
+  minDurationChange: 1.5
+  maxDurationChange: 3.85
+  bounceMaterial: {fileID: 6200000, guid: 19ba7fdd79a17494c83f7d5bcd7bf92d, type: 2}
+  defaultMaterial: {fileID: 6200000, guid: 94e137daba022224d82afb5b9ae33659, type: 2}
+--- !u!114 &9211031001146567063
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6366695547997392324}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e93bad2fc53e17e49876dc8311524e35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isAffected: 1
+  gravityValue: {fileID: 11400000, guid: 631cba9346431a046a70d5759e1eaafe, type: 2}
+  planetTransform: {fileID: 6639394525044586866, guid: a130a108fcc877c46899bbee0699af75,
+    type: 3}

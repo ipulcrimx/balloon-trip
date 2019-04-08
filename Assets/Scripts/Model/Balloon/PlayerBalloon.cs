@@ -28,5 +28,10 @@ public class PlayerBalloon : MonoBehaviour
             Debug.Log("Balloon destroyed");
             if (player) player.OnBallonDestroyed();
         }
+        else if(col.gameObject.tag == "Planet")
+        {
+            Debug.Log("Balloon destroyed");
+            if (player) player.OnBallonDestroyed();
+        }
     }
 }

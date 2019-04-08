@@ -1,41 +1,72 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityStandardAssets.CrossPlatformInput;
 
 public class Player : MonoBehaviour
 {
-    public float moveSpeed = 0.15f;
     public float jumpPower = 0.5f;
-    public float slowDownModifier = 2f;
-    [Space]
-    public float invincibleDuration = 1;
-
-    [Space]
-    public Vector2 thresholdSpeed;
-    public float pushDownForce =  2.5f;
-    public float maxHorizontalSpeed;
-    [Space]
     public List<GameObject> balloons = new List<GameObject>();
+    [Space]
+    public float thresholdPosition;
+    public float backToPositionSpeed;
+    [SerializeField]
+    internal Alien.AreaBoundary interactableArea;
+    [Space]
+    public float outOfScreenThreshold;
+    public GameObject warningPopUp;
 
     private bool _isDead = false;
-    private bool _isInput = false;
-    private float _invinTimer = 0;
+    private bool _isOutOfScreen = false;
+    private Vector2 _initialPosition;
     private Rigidbody2D _rigidBody2d;
+    private CustomGravity _custGravity;
+    [Space]
+    [Range(0, 5)]
+    public float heighThreshold = 2;
+    public float decceleratePower = 3;
+
+    private float _outOfScreenTimer = 0;
+
+    [SerializeField]
+    private Alien.AreaType _areaType;
 
     public UnityAction OnBallonDestroyed = delegate { };
     public UnityAction OnPlayerHit = delegate { };
+    public UnityAction OnEnterBlackHole = delegate { };
+    public UnityAction OnExitBlackHole = delegate { };
+
+    public bool isOutOfScreen { get { return _isOutOfScreen; } }
+
+    public float outOfScreenTimer
+    {
+        get
+        {
+            return outOfScreenThreshold - _outOfScreenTimer;
+        }
+    }
+
+    public float distanceFromInitialPosition
+    {
+        get
+        {
+            return ((Vector2)transform.position - _initialPosition).magnitude;
+        }
+    }
+
+    internal Alien.AreaType areaType
+    {
+        get { return _areaType; }
+    }
 
     public int TotalBalloon
     {
         get
         {
             int temp = 0;
-            foreach(Transform t in transform)
+            foreach (Transform t in transform)
             {
-                if(t.gameObject.activeInHierarchy)
+                if (t.gameObject.activeInHierarchy)
                 {
                     temp++;
                 }
@@ -48,169 +79,130 @@ public class Player : MonoBehaviour
     private void Awake()
     {
         _rigidBody2d = GetComponent<Rigidbody2D>();
+        _custGravity = GetComponent<CustomGravity>();
     }
 
     // Start is called before the first frame update
-    IEnumerator Start()
+    void Start()
     {
-        if (InputSelector.instance)
-        {
-            if (InputSelector.instance.inputType == InputType.Button)
-            {
-                yield return new WaitForEndOfFrame();
-            }
-            else
-            {
-                yield return new WaitUntil(() => Joystick.instance != null);
-
-                Joystick.instance.OnStartInput += StartInput;
-                Joystick.instance.OnStopInput += StopInput;
-            }
-        }
-
         OnPlayerHit += PlayerHit;
         OnBallonDestroyed += BallonHit;
+
+        OnEnterBlackHole += delegate ()
+        {
+            _rigidBody2d.gravityScale = 0.15f;
+        };
+
+        OnExitBlackHole += delegate ()
+        {
+            _rigidBody2d.gravityScale = 1.7f;
+        };
     }
 
     // Update is called once per frame
     void Update()
     {
-#if UNITY_EDITOR
-        if (Input.GetKey(KeyCode.LeftArrow))
-        {
-            //_isInput = true;
-            MoveHorizontal(-moveSpeed);
-        }
-        else if (Input.GetKey(KeyCode.RightArrow))
-        {
-            //_isInput = true;
-            MoveHorizontal(moveSpeed);
-        }
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Jump();
-        }
-#endif
-        if(_invinTimer < invincibleDuration)
-        {
-            _invinTimer +=Time.deltaTime;
-        }
-
         if (TotalBalloon <= 0 && !_isDead)
         {
             _isDead = true;
             GetComponent<Collider2D>().isTrigger = true;
         }
-    }
 
-    private void FixedUpdate()
-    {
-
-        if (!_isDead)
+        if (!_custGravity.isDisturbed && Mathf.Abs(transform.position.x - _initialPosition.x) > thresholdPosition)
         {
-            Vector2 move = new Vector2(CrossPlatformInputManager.GetAxis("Horizontal"), CrossPlatformInputManager.GetAxis("Vertical"));
-            bool isJump = CrossPlatformInputManager.GetButton("Jump");
+                transform.position = Vector2.Lerp
+                (
+                    transform.position,
+                    new Vector2 (_initialPosition.x, transform.position.y),
+                    Time.deltaTime / backToPositionSpeed
+                );
+        }
 
-            if (move.sqrMagnitude >= 0.15f)
+        if(_isOutOfScreen)
+        {
+            _outOfScreenTimer += Time.deltaTime;
+            _rigidBody2d.gravityScale = 3.5f;
+
+            if(!warningPopUp.activeInHierarchy)
             {
-                MoveHorizontal(move);
+                warningPopUp.SetActive(true);
             }
 
-            if (isJump)
+            if(_outOfScreenTimer >= outOfScreenThreshold)
             {
-                isJump = false;
-                Jump();
-            }
+                _outOfScreenTimer = 0;
 
-            if (!_isInput)
+                OnBallonDestroyed();
+            }
+        }
+        else
+        {
+            _outOfScreenTimer = 0;
+            _rigidBody2d.gravityScale = 1.7f;
+            if (warningPopUp.activeInHierarchy)
             {
-                _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime / slowDownModifier);
+                warningPopUp.SetActive(false);
             }
         }
 
-        if(_rigidBody2d.velocity.x > maxHorizontalSpeed)
+        if(_custGravity.distanceFromCenter <= 50)
         {
-            _rigidBody2d.velocity = new Vector2(maxHorizontalSpeed, _rigidBody2d.velocity.y);
+            Destroy(gameObject);
         }
-    }
 
+        if (_custGravity.distanceFromCenter + heighThreshold >= interactableArea.above)
+        {
+            _rigidBody2d.velocity = Vector2.Lerp(_rigidBody2d.velocity, Vector2.zero, Time.deltaTime * decceleratePower);
+        }
+
+        UpdateArea();
+
+    }
 
     private void OnCollisionEnter2D(Collision2D col)
     {
-        if(col.gameObject.tag == "Enemy" || col.gameObject.tag == "Enemies")
+        if (col.gameObject.tag == "Enemy" || col.gameObject.tag == "Enemies")
         {
             Enemy en = col.gameObject.GetComponent<Enemy>();
 
-            if(en)
+            if (en)
             {
-                if(en.hasBallon && _invinTimer >= invincibleDuration)
-                {
-                    OnPlayerHit();
-                }
+                OnPlayerHit();
             }
             else
             {
                 Debug.LogWarning("There's no enemy component on collided object!");
             }
         }
-        else if (col.gameObject.tag == "Interactable Wall")
+        else if(col.gameObject.tag == "Asteroid")
         {
-            if (_rigidBody2d.velocity.y < thresholdSpeed.y)
-            {
-                _rigidBody2d.velocity += Vector2.down *pushDownForce;
-            }
+            OnPlayerHit();
         }
     }
 
-    #region Input Methods
-    private void MoveHorizontal(float speed)
+    public void DoJump(float jumpPower)
     {
-        //transform.position += new Vector3(speed * Time.deltaTime, 0);
-        _rigidBody2d.AddForce(Vector2.right*speed);
-    }
-
-    private void MoveHorizontal(Vector2 direction)
-    {
-        //transform.position += moveSpeed * Time.deltaTime * (Vector3)direction;
-        _rigidBody2d.AddForce(direction * moveSpeed);
-        //speed = _rigidBody2d.velocity;
-        //magnitude = speed.magnitude;
-    }
-
-    private void Jump()
-    {
-        //_rigidBody2d.velocity = Vector2.zero;
         _rigidBody2d.AddForce(Vector2.up * jumpPower);
-        //speed = _rigidBody2d.velocity;
-        //magnitude = speed.magnitude;
     }
-    #endregion
 
     private void BallonHit()
     {
-        if (_invinTimer < invincibleDuration)
-            return;
-
         int index = 0;
         GameObject bal = null;
-        for(index = 0; index < balloons.Count;index++)
+        for (index = 0; index < balloons.Count; index++)
         {
-            if(balloons[index].activeInHierarchy)
+            if (balloons[index].activeInHierarchy)
             {
                 bal = balloons[index];
                 break;
             }
         }
 
-        if(bal)
+        if (bal)
         {
-            Debug.Log("Index: " + index);
             bal.transform.SetParent(null);
             balloons.RemoveAt(index);
             bal.SetActive(false);
-
-            _invinTimer = 0;
         }
         else
         {
@@ -218,33 +210,47 @@ public class Player : MonoBehaviour
         }
     }
 
-    public void StartInput()
-    {
-        _isInput = true;
-    }
-
-    public void StopInput()
-    {
-        _isInput = false;
-    }
-
     [ContextMenu("Player Hit")]
     private void PlayerHit()
     {
-        if (_invinTimer < invincibleDuration)
-            return;
-
-        OnBallonDestroyed();
+        //if (_isOutOfScreen)
+        //    return;
 
         if (TotalBalloon <= 0)
         {
             _isDead = true;
             GetComponent<Collider2D>().isTrigger = true;
         }
+        else
+        {
+            OnBallonDestroyed();
+        }
+    }
+
+    protected void UpdateArea()
+    {
+        float dist = _custGravity.distanceFromCenter;
+        if (dist <= interactableArea.below)
+        {
+            _areaType = Alien.AreaType.Bellow;
+        }
+        else if (dist >= interactableArea.above)
+        {
+            _areaType = Alien.AreaType.Above;
+        }
+        else
+        {
+            _areaType = Alien.AreaType.SafeArea;
+        }
     }
 
     private void OnBecameInvisible()
     {
-        Destroy(gameObject);
+        _isOutOfScreen = true;
+    }
+
+    private void OnBecameVisible()
+    {
+        _isOutOfScreen = false;
     }
 }
